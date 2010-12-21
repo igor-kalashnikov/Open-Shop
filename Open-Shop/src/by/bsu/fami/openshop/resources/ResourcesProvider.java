@@ -1,5 +1,6 @@
 package by.bsu.fami.openshop.resources;
 
+import java.awt.Image;
 import java.util.*;
 import java.util.logging.*;
 
@@ -26,14 +27,24 @@ public class ResourcesProvider {
 	
 	private ResourceBundle stringsBundle;
 	
-	private ResourcesProvider() {
+	private ImageBundle imagesBundle;
+	
+	private ResourceBundle loadBundle(String name) {
 		Locale currentLocale = Locale.getDefault();
 		try {
-			stringsBundle = 
-				ResourceBundle.getBundle("by.bsu.fami.openshop.resources.strings", currentLocale);
+			return ResourceBundle.getBundle(name, currentLocale);
 		} catch (MissingResourceException e) {
-			stringsBundle = null;
 			logger.severe(e.toString());
+			return null;
+		}
+	}
+	
+	private ResourcesProvider() {
+		stringsBundle = loadBundle("by.bsu.fami.openshop.resources.strings");
+		imagesBundle = 
+			new ImageBundle(loadBundle("by.bsu.fami.openshop.resources.images"));
+		
+		if (stringsBundle == null || imagesBundle == null) {
 			System.exit(0);
 		}
 	}
@@ -61,6 +72,10 @@ public class ResourcesProvider {
 	 */
 	public String getString(String key) {
 		return getString(key, null);
+	}
+	
+	public Image getImage(String key) {
+		return imagesBundle.getImage(key);
 	}
 	
 }

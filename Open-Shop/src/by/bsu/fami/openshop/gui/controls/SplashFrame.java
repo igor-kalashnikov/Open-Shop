@@ -42,7 +42,7 @@ public class SplashFrame extends JFrame {
 	private static final int PROGRESS_HEIGHT = 5;
 	private static final int PROGRESS_WIDTH = 460;
 	private static final int PROGRESS_LEFT = 10;
-	private static final int PROGRESS_TOP = 250;
+	private static final int PROGRESS_TOP = 260;
 	
 	@Override
 	public void paint(Graphics g) {
@@ -58,7 +58,7 @@ public class SplashFrame extends JFrame {
 		/* Draw progress. */
 		bufferedG.setColor(Color.BLACK);
 		bufferedG.fillRect(PROGRESS_LEFT, PROGRESS_TOP, PROGRESS_WIDTH, PROGRESS_HEIGHT);
-		bufferedG.setColor(new Color(255, 205, 68));
+		bufferedG.setColor(Color.WHITE);
 		bufferedG.fillRect(PROGRESS_LEFT, PROGRESS_TOP, 
 				(int)(PROGRESS_WIDTH * progress), PROGRESS_HEIGHT);
 		

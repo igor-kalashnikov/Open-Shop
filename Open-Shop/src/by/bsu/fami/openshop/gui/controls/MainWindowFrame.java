@@ -87,13 +87,32 @@ public class MainWindowFrame extends JFrame {
 			}
 		});
         
+        /* Menubar -> Open Shop */
+        openShopMenu = new JMenu(ResourcesProvider.get().getString("openshop.menu.openShop.title"));
+        
+        /* Menubar -> Open Shop -> Choose Task ... */
+        chooseTaskMenuItem = new JMenuItem(ResourcesProvider.get().getString("openshop.menu.openShop.chooseTask.title"));
+        chooseTaskMenuItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO: Implement dialog show.
+			}
+		});
+        
 		getContentPane().add(statusBar, BorderLayout.SOUTH);
 		
 		getContentPane().add(editorPane, BorderLayout.CENTER);
 		
+		/* Adding of a menu. */
+		
 		setJMenuBar(menuBar);
+		
 		menuBar.add(fileMenu);
+		menuBar.add(openShopMenu);
+		
 		fileMenu.add(quitMenuItem);
+		openShopMenu.add(chooseTaskMenuItem);
 	}
 	
 	private final JPanel statusBar;
@@ -105,6 +124,10 @@ public class MainWindowFrame extends JFrame {
 	private final JMenuBar menuBar;
 	
 	private final JMenu fileMenu;
+	
+	private final JMenu openShopMenu;
+	
+	private final JMenuItem chooseTaskMenuItem;
 	
 	private final JMenuItem quitMenuItem;
 	

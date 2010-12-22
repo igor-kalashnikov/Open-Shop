@@ -78,6 +78,7 @@ public class MainWindowFrame extends JFrame implements Navigateable {
         algorithmsPanel.setLayout(new BorderLayout());
         
         algorithmsList = new JList(new Algorithmized[] { 
+        		new HomeAlgorithm(),
         		new ApproximateAlgorithm(),
         		new SearchAlgorithm()
         });
@@ -119,6 +120,7 @@ public class MainWindowFrame extends JFrame implements Navigateable {
 		/* Create an empty history and navigate to home. */
 		navigateHistory = new ArrayList<URL>();
 		navigate(new HomeAlgorithm().getUrl());
+		algorithmsList.setSelectedIndex(0);
 	}
 	
 	private final JPanel statusBar;
@@ -144,6 +146,7 @@ public class MainWindowFrame extends JFrame implements Navigateable {
 	@Override
 	public void navigate(URL url) {
 		navigateHistory.add(url);
+		logger.info("Navigating to " + url);
 		try {
 			editorPane.setPage(url);
 		} catch (IOException e) {

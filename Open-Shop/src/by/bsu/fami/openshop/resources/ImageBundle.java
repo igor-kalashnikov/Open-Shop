@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
@@ -14,6 +15,9 @@ import javax.imageio.ImageIO;
  */
 public class ImageBundle {
 
+	private static final Logger logger = 
+		Logger.getLogger(ImageBundle.class.getName());
+	
 	private final ResourceBundle underlyingBundle;
 	
 	/**
@@ -40,8 +44,10 @@ public class ImageBundle {
 				imagesTable.put(key, image);
 				return image;
 			} catch (IOException e) {
+				logger.warning(e.toString());
 				return null;
 			} catch (MissingResourceException e) {
+				logger.warning(e.toString());
 				return null;
 			}
 		}

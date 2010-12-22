@@ -25,6 +25,8 @@ public class SplashFrame extends JFrame {
 	 * Initializes a new instance.
 	 */
 	public SplashFrame() {
+		super(ResourcesProvider.get().getString("openshop.splash.title"));
+		
 		logo = ResourcesProvider.get().getImage("openshop.logo");
 		setUndecorated(true);
 		setSize(logo.getWidth(null), logo.getHeight(null));

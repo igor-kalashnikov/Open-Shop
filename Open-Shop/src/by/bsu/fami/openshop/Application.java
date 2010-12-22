@@ -2,6 +2,9 @@ package by.bsu.fami.openshop;
 
 import java.util.logging.*;
 
+import javax.swing.UIManager;
+
+import by.bsu.fami.openshop.gui.controls.MainWindowFrame;
 import by.bsu.fami.openshop.gui.controls.SplashFrame;
 import by.bsu.fami.openshop.resources.*;
 
@@ -17,23 +20,38 @@ public class Application {
 	
 	private static SplashFrame splash;
 	
+	private static MainWindowFrame mainWindow;
+	
 	public static void main(String[] args) {
 		logger.info(ResourcesProvider.get().getString("openshop.log.starting"));
 		
+		setLookAndFeel();
+		
 		splash = new SplashFrame();
 		splash.setVisible(true);
-		
+		// TODO: Make this to do a real stuff.
 		try {
 			for (float progress = 0.0f; progress <= 1.0f; progress += 0.010f) {
 				splash.updateProgress(progress);
 				Thread.sleep(30);
 			}
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.warning(e.toString());
+		} finally {
+			splash.setVisible(false);
 		}
 		
-		System.exit(0);
+		mainWindow = new MainWindowFrame();
+		mainWindow.setVisible(true);
+	}
+	
+	private static void setLookAndFeel() {
+		try {
+	        UIManager.setLookAndFeel(
+	            UIManager.getSystemLookAndFeelClassName());
+	    } catch (Exception e) { 
+	    	logger.warning(e.toString());
+	    }
 	}
 
 }

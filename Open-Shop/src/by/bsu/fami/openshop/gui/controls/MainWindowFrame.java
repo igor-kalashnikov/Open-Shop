@@ -1,10 +1,10 @@
 package by.bsu.fami.openshop.gui.controls;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.io.*;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.logging.*;
 
 import javax.swing.*;
@@ -12,6 +12,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.event.*;
 import javax.swing.text.html.*;
 
+import by.bsu.fami.openshop.algorithms.*;
+import by.bsu.fami.openshop.interfaces.*;
 import by.bsu.fami.openshop.resources.ResourcesProvider;
 
 /**
@@ -19,7 +21,7 @@ import by.bsu.fami.openshop.resources.ResourcesProvider;
  * @author eigenein
  *
  */
-public class MainWindowFrame extends JFrame {
+public class MainWindowFrame extends JFrame implements Navigateable {
 
 	private static final long serialVersionUID = -1845506127795597936L;
 
@@ -33,7 +35,7 @@ public class MainWindowFrame extends JFrame {
 		super(ResourcesProvider.get().getString("openshop.mainWindow.title"));
 		
 		/* Common. */
-		setSize(640, 480);
+		setSize(800, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
@@ -59,17 +61,30 @@ public class MainWindowFrame extends JFrame {
                         ((HTMLDocument)editorPane.getDocument())
                                 .processHTMLFrameHyperlinkEvent((HTMLFrameHyperlinkEvent)e);
                     } else {
-                        try {
-                            editorPane.setPage(e.getURL());
-                        } catch (IOException ioe) {
-                            editorPane.setText("IOE: " + ioe);
-                            logger.warning(ioe.toString());
-                        }
+                        navigate(e.getURL());
                     }
                 }
             }
         });
+        
+        editorPanel = new JPanel();
+        editorPanel.setLayout(new BorderLayout());
+        editorPanel.add(editorPane, BorderLayout.CENTER);
+        editorPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
 		
+        /* Algorithms List. */
+        algorithmsPanel = new JPanel();
+        algorithmsPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        algorithmsPanel.setLayout(new BorderLayout());
+        
+        algorithmsList = new JList(new Algorithmized[] { 
+        		new ApproximateAlgorithm(),
+        		new SearchAlgorithm()
+        });
+        algorithmsList.setSize(150, 0);
+        
+        algorithmsPanel.add(algorithmsList, BorderLayout.CENTER);
+        
         /* Menubar. */
         menuBar = new JMenuBar();
         
@@ -82,37 +97,28 @@ public class MainWindowFrame extends JFrame {
         quitMenuItem.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent evt) {
 				System.exit(0);
-			}
-		});
-        
-        /* Menubar -> Open Shop */
-        openShopMenu = new JMenu(ResourcesProvider.get().getString("openshop.menu.openShop.title"));
-        
-        /* Menubar -> Open Shop -> Choose Task ... */
-        chooseTaskMenuItem = new JMenuItem(ResourcesProvider.get().getString("openshop.menu.openShop.chooseTask.title"));
-        chooseTaskMenuItem.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO: Implement dialog show.
 			}
 		});
         
 		getContentPane().add(statusBar, BorderLayout.SOUTH);
 		
-		getContentPane().add(editorPane, BorderLayout.CENTER);
+		getContentPane().add(editorPanel, BorderLayout.CENTER);
+		
+		getContentPane().add(algorithmsPanel, BorderLayout.WEST);
 		
 		/* Adding of a menu. */
 		
 		setJMenuBar(menuBar);
 		
 		menuBar.add(fileMenu);
-		menuBar.add(openShopMenu);
 		
 		fileMenu.add(quitMenuItem);
-		openShopMenu.add(chooseTaskMenuItem);
+
+		/* Create an empty history and navigate to home. */
+		navigateHistory = new ArrayList<URL>();
+		navigate(new HomeAlgorithm().getUrl());
 	}
 	
 	private final JPanel statusBar;
@@ -121,14 +127,29 @@ public class MainWindowFrame extends JFrame {
 	
 	private final JEditorPane editorPane;
 	
+	private final JPanel editorPanel;
+	
+	private final JList algorithmsList;
+	
 	private final JMenuBar menuBar;
 	
 	private final JMenu fileMenu;
 	
-	private final JMenu openShopMenu;
-	
-	private final JMenuItem chooseTaskMenuItem;
-	
 	private final JMenuItem quitMenuItem;
+	
+	private final JPanel algorithmsPanel;
+
+	private final ArrayList<URL> navigateHistory;
+	
+	@Override
+	public void navigate(URL url) {
+		navigateHistory.add(url);
+		try {
+			editorPane.setPage(url);
+		} catch (IOException e) {
+			editorPane.setText(e.toString());
+			logger.warning(e.toString());
+		}
+	}
 	
 }

@@ -17,7 +17,7 @@ public class InputTestDialog extends JDialog {
     public static final int ERROR_OPTION = 3;
 
 
-    private int resalt=ERROR_OPTION;
+    private int resalt = ERROR_OPTION;
 
     private JButton input = null;
     private JButton cancel = null;

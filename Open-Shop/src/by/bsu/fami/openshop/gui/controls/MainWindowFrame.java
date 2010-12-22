@@ -14,6 +14,11 @@ import javax.swing.text.html.*;
 
 import by.bsu.fami.openshop.resources.ResourcesProvider;
 
+/**
+ * Represents the main window.
+ * @author eigenein
+ *
+ */
 public class MainWindowFrame extends JFrame {
 
 	private static final long serialVersionUID = -1845506127795597936L;
@@ -45,19 +50,19 @@ public class MainWindowFrame extends JFrame {
 		statusBar.setBorder(new BevelBorder(BevelBorder.LOWERED));
 		
 		/* Editor pane. */
-		page = new JEditorPane();
-        page.setEditable(false);
-        page.addHyperlinkListener(new HyperlinkListener() {
+		editorPane = new JEditorPane();
+        editorPane.setEditable(false);
+        editorPane.addHyperlinkListener(new HyperlinkListener() {
             public void hyperlinkUpdate(HyperlinkEvent e) {
                 if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
                     if (e instanceof HTMLFrameHyperlinkEvent) {
-                        ((HTMLDocument)page.getDocument())
+                        ((HTMLDocument)editorPane.getDocument())
                                 .processHTMLFrameHyperlinkEvent((HTMLFrameHyperlinkEvent)e);
                     } else {
                         try {
-                            page.setPage(e.getURL());
+                            editorPane.setPage(e.getURL());
                         } catch (IOException ioe) {
-                            page.setText("IOE: " + ioe);
+                            editorPane.setText("IOE: " + ioe);
                             logger.warning(ioe.toString());
                         }
                     }
@@ -84,7 +89,7 @@ public class MainWindowFrame extends JFrame {
         
 		getContentPane().add(statusBar, BorderLayout.SOUTH);
 		
-		getContentPane().add(page, BorderLayout.CENTER);
+		getContentPane().add(editorPane, BorderLayout.CENTER);
 		
 		setJMenuBar(menuBar);
 		menuBar.add(fileMenu);
@@ -95,7 +100,7 @@ public class MainWindowFrame extends JFrame {
 	
 	private final JLabel developersLabel;
 	
-	private final JEditorPane page;
+	private final JEditorPane editorPane;
 	
 	private final JMenuBar menuBar;
 	

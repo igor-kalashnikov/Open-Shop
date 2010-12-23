@@ -21,7 +21,6 @@ public class Resh extends JFrame {
     private JMenuBar menubar = null;
     private JMenu menu = null;
     private JMenu menuinput=null;
-    private JMenu menuAbout=null;
     private JMenuItem menuInputDadaPerebor=null;
     private JMenuItem menuInputDadaResult=null;
     private JMenuItem openmenu = null;
@@ -43,7 +42,7 @@ public class Resh extends JFrame {
         menuinput=new JMenu("Input test");
         menuInputDadaPerebor=new JMenuItem("Input test for search");
         menuInputDadaResult=new JMenuItem("Input test and get result");
-        menuAbout=new JMenu("About");
+        new JMenu("About");
         
         openmenu.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

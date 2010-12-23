@@ -61,7 +61,7 @@ public class MainWindowFrame extends JFrame implements Navigateable {
                         ((HTMLDocument)editorPane.getDocument())
                                 .processHTMLFrameHyperlinkEvent((HTMLFrameHyperlinkEvent)e);
                     } else {
-                        navigate(e.getURL());
+                        navigate(e.getURL(), true);
                     }
                 }
             }
@@ -87,10 +87,12 @@ public class MainWindowFrame extends JFrame implements Navigateable {
 			
 			@Override
 			public void valueChanged(ListSelectionEvent evt) {
-				Algorithmized element = 
-					(Algorithmized)algorithmsList.getSelectedValue();
-				visualizationAvailablePanel.setVisible(element.hasVisualization());
-				navigate(element.getUrl());
+				if (!evt.getValueIsAdjusting()) {
+					Algorithmized element = 
+						(Algorithmized)algorithmsList.getSelectedValue();
+					visualizationAvailablePanel.setVisible(element.hasVisualization());
+					navigate(element.getUrl(), true);
+				}
 			}
 		});
         
@@ -154,8 +156,30 @@ public class MainWindowFrame extends JFrame implements Navigateable {
 		/* Toolbar. */
 		goBackButton = new JButton(ResourcesProvider.get().getString(
 				"openshop.toolbar.goBackButton.text"));
+		goBackButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				logger.info("History index is " + historyIndex);
+				if (historyIndex > 0) {
+					historyIndex -= 1;
+					navigate(navigateHistory.get(historyIndex), false);
+				}
+			}
+		});
 		goForwardButton = new JButton(ResourcesProvider.get().getString(
 				"openshop.toolbar.goForwardButton.text"));
+		goForwardButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				logger.info("History index is " + historyIndex);
+				if (historyIndex < navigateHistory.size() - 1) {
+					historyIndex += 1;
+					navigate(navigateHistory.get(historyIndex), false);
+				}
+			}
+		});
 		toolbar = new JToolBar();
 		toolbar.add(goBackButton);
 		toolbar.add(goForwardButton);
@@ -164,7 +188,6 @@ public class MainWindowFrame extends JFrame implements Navigateable {
 		
 		/* Create an empty history and navigate to home. */
 		navigateHistory = new ArrayList<URL>();
-		navigate(new HomeAlgorithm().getUrl());
 		algorithmsList.setSelectedIndex(0);
 	}
 	
@@ -187,10 +210,12 @@ public class MainWindowFrame extends JFrame implements Navigateable {
 	private final JButton goForwardButton;
 	
 	@Override
-	public void navigate(URL url) {
-		navigateHistory.add(url);
-		historyIndex += 1;
-		logger.info("Navigating to " + url);
+	public void navigate(URL url, boolean addToHistory) {
+		if (addToHistory) {
+			navigateHistory.add(url);
+			historyIndex += 1;
+		}
+		logger.info("Navigating to " + url + " setting historyIndex to " + historyIndex);
 		try {
 			editorPane.setPage(url);
 		} catch (IOException e) {

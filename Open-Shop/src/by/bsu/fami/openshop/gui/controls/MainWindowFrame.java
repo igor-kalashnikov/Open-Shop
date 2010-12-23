@@ -69,7 +69,7 @@ public class MainWindowFrame extends JFrame implements Navigateable {
         
         editorPanel = new JPanel();
         editorPanel.setLayout(new BorderLayout());
-        editorPanel.add(editorPane, BorderLayout.CENTER);
+        editorPanel.add(new JScrollPane(editorPane), BorderLayout.CENTER);
         editorPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
 		
         /* Algorithms List. */

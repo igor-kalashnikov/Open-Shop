@@ -33,7 +33,7 @@ public class Application {
 		try {
 			for (float progress = 0.0f; progress <= 1.0f; progress += 0.010f) {
 				splash.updateProgress(progress);
-				Thread.sleep(30);
+				Thread.sleep(10);
 			}
 		} catch (InterruptedException e) {
 			logger.warning(e.toString());

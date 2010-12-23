@@ -54,6 +54,7 @@ public class MainWindowFrame extends JFrame implements Navigateable {
 		/* Editor pane. */
 		editorPane = new JEditorPane();
         editorPane.setEditable(false);
+        editorPane.setBackground(Color.white);
         editorPane.addHyperlinkListener(new HyperlinkListener() {
             public void hyperlinkUpdate(HyperlinkEvent e) {
                 if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {

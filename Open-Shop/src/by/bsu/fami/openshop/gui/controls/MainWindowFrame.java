@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.logging.*;
 
 import javax.swing.*;
@@ -83,6 +83,16 @@ public class MainWindowFrame extends JFrame implements Navigateable {
         		new SearchAlgorithm()
         });
         algorithmsList.setSize(150, 0);
+        algorithmsList.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent evt) {
+				Algorithmized element = 
+					(Algorithmized)algorithmsList.getSelectedValue();
+				visualizationAvailablePanel.setVisible(element.hasVisualization());
+				navigate(element.getUrl());
+			}
+		});
         
         algorithmsPanel.add(algorithmsList, BorderLayout.CENTER);
         
@@ -103,11 +113,35 @@ public class MainWindowFrame extends JFrame implements Navigateable {
 			}
 		});
         
+        /* Visualization available panel. */
+        
+        visualizationAvailableLabel = new JLabel(
+        		ResourcesProvider.get().getString("openshop.visualizationLabel.text"));
+        visualizationAvailablePanel = new JPanel(new BorderLayout());
+        visualizationAvailablePanel.add(visualizationAvailableLabel, 
+        		BorderLayout.CENTER);
+        visualizationAvailablePanel.setBorder(new BevelBorder(BevelBorder.RAISED));
+        showVisualizationButton = new JButton(
+        		ResourcesProvider.get().getString("openshop.showVisualizationButton.text"));
+        showVisualizationButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Algorithmized element = 
+					(Algorithmized)algorithmsList.getSelectedValue();
+				element.startVisualization();
+			}
+		});
+        visualizationAvailablePanel.add(showVisualizationButton, BorderLayout.EAST);
+        visualizationAvailablePanel.setVisible(false);
+        
 		getContentPane().add(statusBar, BorderLayout.SOUTH);
 		
 		getContentPane().add(editorPanel, BorderLayout.CENTER);
 		
 		getContentPane().add(algorithmsPanel, BorderLayout.WEST);
+		
+		editorPanel.add(visualizationAvailablePanel, BorderLayout.NORTH);
 		
 		/* Adding of a menu. */
 		
@@ -117,6 +151,17 @@ public class MainWindowFrame extends JFrame implements Navigateable {
 		
 		fileMenu.add(quitMenuItem);
 
+		/* Toolbar. */
+		goBackButton = new JButton(ResourcesProvider.get().getString(
+				"openshop.toolbar.goBackButton.text"));
+		goForwardButton = new JButton(ResourcesProvider.get().getString(
+				"openshop.toolbar.goForwardButton.text"));
+		toolbar = new JToolBar();
+		toolbar.add(goBackButton);
+		toolbar.add(goForwardButton);
+				
+		getContentPane().add(toolbar, BorderLayout.NORTH);
+		
 		/* Create an empty history and navigate to home. */
 		navigateHistory = new ArrayList<URL>();
 		navigate(new HomeAlgorithm().getUrl());
@@ -124,28 +169,27 @@ public class MainWindowFrame extends JFrame implements Navigateable {
 	}
 	
 	private final JPanel statusBar;
-	
 	private final JLabel developersLabel;
-	
 	private final JEditorPane editorPane;
-	
 	private final JPanel editorPanel;
-	
 	private final JList algorithmsList;
-	
 	private final JMenuBar menuBar;
-	
 	private final JMenu fileMenu;
-	
 	private final JMenuItem quitMenuItem;
-	
 	private final JPanel algorithmsPanel;
-
+	private int historyIndex = -1;
 	private final ArrayList<URL> navigateHistory;
+	private final JPanel visualizationAvailablePanel;
+	private final JLabel visualizationAvailableLabel;
+	private final JButton showVisualizationButton;
+	private final JToolBar toolbar;
+	private final JButton goBackButton;
+	private final JButton goForwardButton;
 	
 	@Override
 	public void navigate(URL url) {
 		navigateHistory.add(url);
+		historyIndex += 1;
 		logger.info("Navigating to " + url);
 		try {
 			editorPane.setPage(url);

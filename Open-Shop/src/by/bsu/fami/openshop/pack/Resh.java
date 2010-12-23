@@ -111,8 +111,6 @@ public class Resh extends JFrame {
             }
         });
 
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        ;
         menu.add(saveimage);
         menu.add(delay);
         menuinput.add(openmenu);
@@ -121,7 +119,7 @@ public class Resh extends JFrame {
         menuinput.add(menuInputDadaResult);
         menubar.add(menu);
         menubar.add(menuinput);
-        menubar.add(menuAbout);
+        // menubar.add(menuAbout);
         setJMenuBar(menubar);
         setLayout(new BorderLayout());
         setFocusable(true);
@@ -129,7 +127,7 @@ public class Resh extends JFrame {
     }
 
     private void inputTest(boolean seach){
-        InputTestDialog itd=new InputTestDialog(this,"Input test", true);
+        InputTestDialog itd=new InputTestDialog(this, "Input test", true);
         int result=itd.showDialog();
         if (result==InputTestDialog.APPROVE_OPTION){
             int n=itd.getN();
@@ -195,11 +193,5 @@ public class Resh extends JFrame {
             panel.repaint();
         }
     }
-
-    /* public static void main(String[] args) {
-        Resh frame = new Resh("Test", MyPanel.APPROXIMATE);
-        frame.setSize(600, 600);
-        frame.setVisible(true);
-    } */
 
 }

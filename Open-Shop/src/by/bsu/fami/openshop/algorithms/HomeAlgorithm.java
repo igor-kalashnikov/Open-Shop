@@ -26,5 +26,10 @@ public class HomeAlgorithm implements Algorithmized {
 	public boolean hasVisualization() {
 		return false;
 	}
+
+	@Override
+	public void startVisualization() {
+		// Do nothing.
+	}
 	
 }

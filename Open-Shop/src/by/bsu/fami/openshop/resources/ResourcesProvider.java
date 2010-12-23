@@ -1,6 +1,7 @@
 package by.bsu.fami.openshop.resources;
 
 import java.awt.Image;
+import java.net.URL;
 import java.util.*;
 import java.util.logging.*;
 
@@ -74,8 +75,23 @@ public class ResourcesProvider {
 		return getString(key, null);
 	}
 	
+	/**
+	 * Gets the image.
+	 */
 	public Image getImage(String key) {
 		return imagesBundle.getImage(key);
+	}
+	
+	/**
+	 * Gets the URL.
+	 */
+	public URL getUrl(String key) {
+		String urlString = getString(key);
+		URL url = ResourcesProvider.class.getResource(urlString);
+		if (url == null) {
+			logger.warning("URL is not found for " + key + " that is " + urlString);
+		}
+		return url;
 	}
 	
 }

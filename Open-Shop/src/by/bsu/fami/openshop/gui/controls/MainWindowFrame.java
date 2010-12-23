@@ -1,10 +1,10 @@
 package by.bsu.fami.openshop.gui.controls;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.io.*;
+import java.net.URL;
+import java.util.*;
 import java.util.logging.*;
 
 import javax.swing.*;
@@ -12,6 +12,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.event.*;
 import javax.swing.text.html.*;
 
+import by.bsu.fami.openshop.algorithms.*;
+import by.bsu.fami.openshop.interfaces.*;
 import by.bsu.fami.openshop.resources.ResourcesProvider;
 
 /**
@@ -19,7 +21,7 @@ import by.bsu.fami.openshop.resources.ResourcesProvider;
  * @author eigenein
  *
  */
-public class MainWindowFrame extends JFrame {
+public class MainWindowFrame extends JFrame implements Navigateable {
 
 	private static final long serialVersionUID = -1845506127795597936L;
 
@@ -33,7 +35,7 @@ public class MainWindowFrame extends JFrame {
 		super(ResourcesProvider.get().getString("openshop.mainWindow.title"));
 		
 		/* Common. */
-		setSize(640, 480);
+		setSize(800, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
@@ -59,17 +61,43 @@ public class MainWindowFrame extends JFrame {
                         ((HTMLDocument)editorPane.getDocument())
                                 .processHTMLFrameHyperlinkEvent((HTMLFrameHyperlinkEvent)e);
                     } else {
-                        try {
-                            editorPane.setPage(e.getURL());
-                        } catch (IOException ioe) {
-                            editorPane.setText("IOE: " + ioe);
-                            logger.warning(ioe.toString());
-                        }
+                        navigate(e.getURL(), true);
                     }
                 }
             }
         });
+        
+        editorPanel = new JPanel();
+        editorPanel.setLayout(new BorderLayout());
+        editorPanel.add(editorPane, BorderLayout.CENTER);
+        editorPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
 		
+        /* Algorithms List. */
+        algorithmsPanel = new JPanel();
+        algorithmsPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        algorithmsPanel.setLayout(new BorderLayout());
+        
+        algorithmsList = new JList(new Algorithmized[] { 
+        		new HomeAlgorithm(),
+        		new ApproximateAlgorithm(),
+        		new SearchAlgorithm()
+        });
+        algorithmsList.setSize(150, 0);
+        algorithmsList.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent evt) {
+				if (!evt.getValueIsAdjusting()) {
+					Algorithmized element = 
+						(Algorithmized)algorithmsList.getSelectedValue();
+					visualizationAvailablePanel.setVisible(element.hasVisualization());
+					navigate(element.getUrl(), true);
+				}
+			}
+		});
+        
+        algorithmsPanel.add(algorithmsList, BorderLayout.CENTER);
+        
         /* Menubar. */
         menuBar = new JMenuBar();
         
@@ -82,53 +110,118 @@ public class MainWindowFrame extends JFrame {
         quitMenuItem.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent evt) {
 				System.exit(0);
 			}
 		});
         
-        /* Menubar -> Open Shop */
-        openShopMenu = new JMenu(ResourcesProvider.get().getString("openshop.menu.openShop.title"));
+        /* Visualization available panel. */
         
-        /* Menubar -> Open Shop -> Choose Task ... */
-        chooseTaskMenuItem = new JMenuItem(ResourcesProvider.get().getString("openshop.menu.openShop.chooseTask.title"));
-        chooseTaskMenuItem.addActionListener(new ActionListener() {
+        visualizationAvailableLabel = new JLabel(
+        		ResourcesProvider.get().getString("openshop.visualizationLabel.text"));
+        visualizationAvailablePanel = new JPanel(new BorderLayout());
+        visualizationAvailablePanel.add(visualizationAvailableLabel, 
+        		BorderLayout.CENTER);
+        visualizationAvailablePanel.setBorder(new BevelBorder(BevelBorder.RAISED));
+        showVisualizationButton = new JButton(
+        		ResourcesProvider.get().getString("openshop.showVisualizationButton.text"));
+        showVisualizationButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO: Implement dialog show.
+				Algorithmized element = 
+					(Algorithmized)algorithmsList.getSelectedValue();
+				element.startVisualization();
 			}
 		});
+        visualizationAvailablePanel.add(showVisualizationButton, BorderLayout.EAST);
+        visualizationAvailablePanel.setVisible(false);
         
 		getContentPane().add(statusBar, BorderLayout.SOUTH);
 		
-		getContentPane().add(editorPane, BorderLayout.CENTER);
+		getContentPane().add(editorPanel, BorderLayout.CENTER);
+		
+		getContentPane().add(algorithmsPanel, BorderLayout.WEST);
+		
+		editorPanel.add(visualizationAvailablePanel, BorderLayout.NORTH);
 		
 		/* Adding of a menu. */
 		
 		setJMenuBar(menuBar);
 		
 		menuBar.add(fileMenu);
-		menuBar.add(openShopMenu);
 		
 		fileMenu.add(quitMenuItem);
-		openShopMenu.add(chooseTaskMenuItem);
+
+		/* Toolbar. */
+		goBackButton = new JButton(ResourcesProvider.get().getString(
+				"openshop.toolbar.goBackButton.text"));
+		goBackButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				logger.info("History index is " + historyIndex);
+				if (historyIndex > 0) {
+					historyIndex -= 1;
+					navigate(navigateHistory.get(historyIndex), false);
+				}
+			}
+		});
+		goForwardButton = new JButton(ResourcesProvider.get().getString(
+				"openshop.toolbar.goForwardButton.text"));
+		goForwardButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				logger.info("History index is " + historyIndex);
+				if (historyIndex < navigateHistory.size() - 1) {
+					historyIndex += 1;
+					navigate(navigateHistory.get(historyIndex), false);
+				}
+			}
+		});
+		toolbar = new JToolBar();
+		toolbar.add(goBackButton);
+		toolbar.add(goForwardButton);
+				
+		getContentPane().add(toolbar, BorderLayout.NORTH);
+		
+		/* Create an empty history and navigate to home. */
+		navigateHistory = new ArrayList<URL>();
+		algorithmsList.setSelectedIndex(0);
 	}
 	
 	private final JPanel statusBar;
-	
 	private final JLabel developersLabel;
-	
 	private final JEditorPane editorPane;
-	
+	private final JPanel editorPanel;
+	private final JList algorithmsList;
 	private final JMenuBar menuBar;
-	
 	private final JMenu fileMenu;
-	
-	private final JMenu openShopMenu;
-	
-	private final JMenuItem chooseTaskMenuItem;
-	
 	private final JMenuItem quitMenuItem;
+	private final JPanel algorithmsPanel;
+	private int historyIndex = -1;
+	private final ArrayList<URL> navigateHistory;
+	private final JPanel visualizationAvailablePanel;
+	private final JLabel visualizationAvailableLabel;
+	private final JButton showVisualizationButton;
+	private final JToolBar toolbar;
+	private final JButton goBackButton;
+	private final JButton goForwardButton;
+	
+	@Override
+	public void navigate(URL url, boolean addToHistory) {
+		if (addToHistory) {
+			navigateHistory.add(url);
+			historyIndex += 1;
+		}
+		logger.info("Navigating to " + url + " setting historyIndex to " + historyIndex);
+		try {
+			editorPane.setPage(url);
+		} catch (IOException e) {
+			editorPane.setText(e.toString());
+			logger.warning(e.toString());
+		}
+	}
 	
 }

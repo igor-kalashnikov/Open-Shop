@@ -19,7 +19,6 @@ public class MyPanel extends JPanel implements Runnable {
 
     private static final long serialVersionUID = -6938308174884009354L;
 
-    private Resh frm = null;
     private Thread thead = null;
 
     private ArrayList<ArrayList<Work>> mashwork = null;
@@ -53,7 +52,6 @@ public class MyPanel extends JPanel implements Runnable {
     public MyPanel(Resh ff, String filename, int t, boolean per, int style) {
         miin = 999999;
         perebor = per;
-        frm = ff;
         timedelay = t;
         styleAnswer=style;
         records = new Records();
@@ -83,7 +81,6 @@ public class MyPanel extends JPanel implements Runnable {
     public MyPanel(Resh ff, int t, boolean per, int nn, int mm, int aa[][], int style) {
         miin = 999999;
         perebor = per;
-        frm = ff;
         timedelay = t;
         records = new Records();
         n = nn;
@@ -118,7 +115,6 @@ public class MyPanel extends JPanel implements Runnable {
 
     @SuppressWarnings("static-access")
     private void findAnswerRoughly() {
-        boolean prov = false;
         int mn = findMin();
         if (mn != (-1)) {
             if (massstack[mn] != -1) {
@@ -132,7 +128,6 @@ public class MyPanel extends JPanel implements Runnable {
                 masost[mn] -= a[j][mn];
                 masbool[j][mn] = true;
                 maszan[j] = true;
-                int t = massstack[mn];
                 massstack[mn] = j;
                 if (perebor) {
                     repaint();
@@ -164,7 +159,6 @@ public class MyPanel extends JPanel implements Runnable {
                                                 massstack[i]));
                         masbool[massstack[i]][mn] = true;
                         masost[mn] -= a[massstack[i]][mn];
-                        int ttt = massstack[mn];
                         massstack[mn] = massstack[i];
                         massstack[i] = -1;
                         if (perebor) {
@@ -230,7 +224,7 @@ public class MyPanel extends JPanel implements Runnable {
                                 if (perebor) {
                                     repaint();
                                     try {
-                                        thead.sleep(timedelay);
+                                        Thread.sleep(timedelay);
                                     } catch (InterruptedException e) {
                                         e.printStackTrace();
                                     }
@@ -276,7 +270,7 @@ public class MyPanel extends JPanel implements Runnable {
                                     if (perebor) {
                                         repaint();
                                         try {
-                                            thead.sleep(timedelay);
+                                            Thread.sleep(timedelay);
                                         } catch (InterruptedException e) {
                                             e.printStackTrace();
                                         }
@@ -308,7 +302,7 @@ public class MyPanel extends JPanel implements Runnable {
                 if (perebor) {
                     repaint();
                     try {
-                        thead.sleep(timedelay);
+                        Thread.sleep(timedelay);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -332,7 +326,7 @@ public class MyPanel extends JPanel implements Runnable {
                 if (perebor) {
                     repaint();
                     try {
-                        thead.sleep(timedelay);
+                        Thread.sleep(timedelay);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

@@ -21,7 +21,6 @@ public class Resh extends JFrame {
     private JMenuBar menubar = null;
     private JMenu menu = null;
     private JMenu menuinput=null;
-    private JMenu menuAbout=null;
     private JMenuItem menuInputDadaPerebor=null;
     private JMenuItem menuInputDadaResult=null;
     private JMenuItem openmenu = null;
@@ -43,7 +42,7 @@ public class Resh extends JFrame {
         menuinput=new JMenu("Input test");
         menuInputDadaPerebor=new JMenuItem("Input test for search");
         menuInputDadaResult=new JMenuItem("Input test and get result");
-        menuAbout=new JMenu("About");
+        new JMenu("About");
         
         openmenu.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -111,8 +110,6 @@ public class Resh extends JFrame {
             }
         });
 
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        ;
         menu.add(saveimage);
         menu.add(delay);
         menuinput.add(openmenu);
@@ -121,7 +118,7 @@ public class Resh extends JFrame {
         menuinput.add(menuInputDadaResult);
         menubar.add(menu);
         menubar.add(menuinput);
-        menubar.add(menuAbout);
+        // menubar.add(menuAbout);
         setJMenuBar(menubar);
         setLayout(new BorderLayout());
         setFocusable(true);
@@ -129,7 +126,7 @@ public class Resh extends JFrame {
     }
 
     private void inputTest(boolean seach){
-        InputTestDialog itd=new InputTestDialog(this,"Input test", true);
+        InputTestDialog itd=new InputTestDialog(this, "Input test", true);
         int result=itd.showDialog();
         if (result==InputTestDialog.APPROVE_OPTION){
             int n=itd.getN();
@@ -195,11 +192,5 @@ public class Resh extends JFrame {
             panel.repaint();
         }
     }
-
-    /* public static void main(String[] args) {
-        Resh frame = new Resh("Test", MyPanel.APPROXIMATE);
-        frame.setSize(600, 600);
-        frame.setVisible(true);
-    } */
 
 }

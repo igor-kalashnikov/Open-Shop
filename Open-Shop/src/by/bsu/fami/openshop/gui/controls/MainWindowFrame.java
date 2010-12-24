@@ -84,17 +84,15 @@ public class MainWindowFrame extends JFrame implements Navigateable {
         		new SearchAlgorithm()
         });
         algorithmsList.setSize(150, 0);
-        algorithmsList.addListSelectionListener(new ListSelectionListener() {
-			
-			@Override
-			public void valueChanged(ListSelectionEvent evt) {
-				if (!evt.getValueIsAdjusting()) {
-					Algorithmized element = 
-						(Algorithmized)algorithmsList.getSelectedValue();
-					visualizationAvailablePanel.setVisible(element.hasVisualization());
-					navigate(element.getUrl(), true);
-				}
-			}
+        algorithmsList.addMouseListener(new MouseAdapter() {
+        	
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		Algorithmized element = 
+					(Algorithmized)algorithmsList.getSelectedValue();
+				visualizationAvailablePanel.setVisible(element.hasVisualization());
+				navigate(element.getUrl(), true);
+        	}
 		});
         
         algorithmsPanel.add(algorithmsList, BorderLayout.CENTER);
@@ -189,7 +187,7 @@ public class MainWindowFrame extends JFrame implements Navigateable {
 		
 		/* Create an empty history and navigate to home. */
 		navigateHistory = new ArrayList<URL>();
-		algorithmsList.setSelectedIndex(0);
+		navigate(new HomeAlgorithm().getUrl(), true);
 	}
 	
 	private final JPanel statusBar;
@@ -217,6 +215,17 @@ public class MainWindowFrame extends JFrame implements Navigateable {
 			historyIndex += 1;
 		}
 		logger.info("Navigating to " + url + " setting historyIndex to " + historyIndex);
+		/* Hotfix. I know that this is the bad code. */
+		int size = algorithmsList.getModel().getSize();
+		for (int i = 0; i < size; i++) {
+			Algorithmized algorithmized = (Algorithmized)algorithmsList.getModel().getElementAt(i);
+			if (algorithmized.getUrl().equals(url)) {
+				algorithmsList.setSelectedIndex(i);
+				visualizationAvailablePanel.setVisible(
+						algorithmized.hasVisualization());
+				break;
+			}
+		}
 		try {
 			editorPane.setPage(url);
 		} catch (IOException e) {

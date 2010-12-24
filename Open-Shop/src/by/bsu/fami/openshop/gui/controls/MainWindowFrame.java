@@ -14,6 +14,7 @@ import javax.swing.text.html.*;
 
 import by.bsu.fami.openshop.algorithms.*;
 import by.bsu.fami.openshop.interfaces.*;
+import by.bsu.fami.openshop.resources.FakePagesLoader;
 import by.bsu.fami.openshop.resources.ResourcesProvider;
 
 /**
@@ -78,11 +79,12 @@ public class MainWindowFrame extends JFrame implements Navigateable {
         algorithmsPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
         algorithmsPanel.setLayout(new BorderLayout());
         
-        algorithmsList = new JList(new Algorithmized[] { 
-        		new HomeAlgorithm(),
-        		new ApproximateAlgorithm(),
-        		new SearchAlgorithm()
-        });
+        Vector<Algorithmized> algorithms = new Vector<Algorithmized>();
+        algorithms.add(new HomeAlgorithm());
+        algorithms.add(new ApproximateAlgorithm());
+        algorithms.add(new SearchAlgorithm());
+        algorithms.addAll(new FakePagesLoader().loadFakePages());
+        algorithmsList = new JList(algorithms);
         algorithmsList.setSize(150, 0);
         algorithmsList.addMouseListener(new MouseAdapter() {
         	

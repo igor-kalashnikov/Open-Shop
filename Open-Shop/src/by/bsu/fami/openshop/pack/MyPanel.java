@@ -2,13 +2,8 @@ package by.bsu.fami.openshop.pack;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridLayout;
-import java.awt.Point;
 import java.awt.Polygon;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -462,7 +457,6 @@ public class MyPanel extends JPanel implements Runnable {
 
     private void draw3DRect(int i, int j, Work work, Graphics gg) {
         int h = getHeight();
-        int w = getWidth();
 
         int rect1x[] = new int[4];
         int rect1y[] = new int[4];

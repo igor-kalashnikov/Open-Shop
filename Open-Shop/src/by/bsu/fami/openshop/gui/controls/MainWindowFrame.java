@@ -2,19 +2,15 @@ package by.bsu.fami.openshop.gui.controls;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
-import java.net.URL;
-import java.util.*;
-import java.util.logging.*;
+import java.util.logging.Logger;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.*;
-import javax.swing.text.html.*;
+import javax.swing.tree.DefaultMutableTreeNode;
 
-import by.bsu.fami.openshop.algorithms.*;
-import by.bsu.fami.openshop.interfaces.*;
-import by.bsu.fami.openshop.resources.FakePagesLoader;
+import by.bsu.fami.openshop.interfaces.Openable;
+import by.bsu.fami.openshop.openables.*;
 import by.bsu.fami.openshop.resources.ResourcesProvider;
 
 /**
@@ -22,7 +18,7 @@ import by.bsu.fami.openshop.resources.ResourcesProvider;
  * @author eigenein
  *
  */
-public class MainWindowFrame extends JFrame implements Navigateable {
+public class MainWindowFrame extends JFrame {
 
 	private static final long serialVersionUID = -1845506127795597936L;
 
@@ -51,54 +47,37 @@ public class MainWindowFrame extends JFrame implements Navigateable {
 		statusBar.setLayout(new BorderLayout());
 		statusBar.add(developersLabel, BorderLayout.CENTER);
 		statusBar.setBorder(new BevelBorder(BevelBorder.LOWERED));
+
+		/* Contents pane. */
+		contentsPane = null;
 		
-		/* Editor pane. */
-		editorPane = new JEditorPane();
-        editorPane.setEditable(false);
-        editorPane.setBackground(Color.white);
-        editorPane.addHyperlinkListener(new HyperlinkListener() {
-            public void hyperlinkUpdate(HyperlinkEvent e) {
-                if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                    if (e instanceof HTMLFrameHyperlinkEvent) {
-                        ((HTMLDocument)editorPane.getDocument())
-                                .processHTMLFrameHyperlinkEvent((HTMLFrameHyperlinkEvent)e);
-                    } else {
-                        navigate(e.getURL(), true);
-                    }
-                }
-            }
-        });
-        
-        editorPanel = new JPanel();
-        editorPanel.setLayout(new BorderLayout());
-        editorPanel.add(new JScrollPane(editorPane), BorderLayout.CENTER);
-        editorPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        /* Contents panel. */
+        contentsPanel = new JPanel();
+        contentsPanel.setLayout(new BorderLayout());
+        contentsPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
 		
-        /* Algorithms List. */
-        algorithmsPanel = new JPanel();
-        algorithmsPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
-        algorithmsPanel.setLayout(new BorderLayout());
-        
-        Vector<Algorithmized> algorithms = new Vector<Algorithmized>();
-        algorithms.add(new HomeAlgorithm());
-        algorithms.add(new ApproximateAlgorithm());
-        algorithms.add(new SearchAlgorithm());
-        algorithms.addAll(new FakePagesLoader().loadFakePages());
-        algorithmsList = new JList(algorithms);
-        algorithmsList.setSize(150, 0);
-        algorithmsList.setMaximumSize(new Dimension(150, 100500));
-        algorithmsList.addMouseListener(new MouseAdapter() {
-        	
-        	@Override
-        	public void mouseClicked(MouseEvent e) {
-        		Algorithmized element = 
-					(Algorithmized)algorithmsList.getSelectedValue();
-				visualizationAvailablePanel.setVisible(element.hasVisualization());
-				navigate(element.getUrl(), true);
-        	}
+        /* Navigation. */
+        navigationTree = new JTree(createNavigationNodes());
+        expandNavigationTree();
+        navigationTree.addTreeSelectionListener(new TreeSelectionListener() {
+			
+			@Override
+			public void valueChanged(TreeSelectionEvent evt) {
+				Openable openable = getCurrentlySelectedOpenable();
+				if (openable != null) {
+					if (contentsPane != null) {
+						contentsPanel.remove(contentsPane);
+					}
+					contentsPane = new JScrollPane(openable.getUI());
+					contentsPanel.add(contentsPane, BorderLayout.CENTER);
+					contentsPanel.updateUI();
+				}
+			}
 		});
-        
-        algorithmsPanel.add(algorithmsList, BorderLayout.CENTER);
+        navigationPanel = new JPanel();
+        navigationPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        navigationPanel.setLayout(new BorderLayout());
+        navigationPanel.add(navigationTree, BorderLayout.CENTER);
         
         /* Menubar. */
         menuBar = new JMenuBar();
@@ -130,22 +109,19 @@ public class MainWindowFrame extends JFrame implements Navigateable {
         showVisualizationButton.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Algorithmized element = 
-					(Algorithmized)algorithmsList.getSelectedValue();
-				element.startVisualization();
+			public void actionPerformed(ActionEvent evt) {
+				getCurrentlySelectedOpenable().showVisualization();
 			}
 		});
         visualizationAvailablePanel.add(showVisualizationButton, BorderLayout.EAST);
         visualizationAvailablePanel.setVisible(false);
         
+        /* Add components. */
+        
 		getContentPane().add(statusBar, BorderLayout.SOUTH);
-		
-		getContentPane().add(editorPanel, BorderLayout.CENTER);
-		
-		getContentPane().add(algorithmsPanel, BorderLayout.WEST);
-		
-		editorPanel.add(visualizationAvailablePanel, BorderLayout.NORTH);
+		getContentPane().add(contentsPanel, BorderLayout.CENTER);
+		getContentPane().add(navigationPanel, BorderLayout.WEST);
+		contentsPanel.add(visualizationAvailablePanel, BorderLayout.NORTH);
 		
 		/* Adding of a menu. */
 		
@@ -154,87 +130,73 @@ public class MainWindowFrame extends JFrame implements Navigateable {
 		menuBar.add(fileMenu);
 		
 		fileMenu.add(quitMenuItem);
+	}
+	
+	private void expandNavigationTree() {
+		for (int i = 0; i < navigationTree.getRowCount(); i++) {
+			navigationTree.expandRow(i);
+		}
+	}
 
-		/* Toolbar. */
-		goBackButton = new JButton(ResourcesProvider.get().getString(
-				"openshop.toolbar.goBackButton.text"));
-		goBackButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				logger.info("History index is " + historyIndex);
-				if (historyIndex > 0) {
-					historyIndex -= 1;
-					navigate(navigateHistory.get(historyIndex), false);
-				}
-			}
-		});
-		goForwardButton = new JButton(ResourcesProvider.get().getString(
-				"openshop.toolbar.goForwardButton.text"));
-		goForwardButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				logger.info("History index is " + historyIndex);
-				if (historyIndex < navigateHistory.size() - 1) {
-					historyIndex += 1;
-					navigate(navigateHistory.get(historyIndex), false);
-				}
-			}
-		});
-		toolbar = new JToolBar();
-		toolbar.add(goBackButton);
-		toolbar.add(goForwardButton);
-				
-		getContentPane().add(toolbar, BorderLayout.NORTH);
-		
-		/* Create an empty history and navigate to home. */
-		navigateHistory = new ArrayList<URL>();
-		navigate(new HomeAlgorithm().getUrl(), true);
+	private DefaultMutableTreeNode createNavigationNodes() {
+		/* Creating root node. */
+		final DefaultMutableTreeNode root = new DefaultMutableTreeNode(
+				ResourcesProvider.get().getString("openshop.tree.root"));
+		/* Creating child nodes. */
+		final DefaultMutableTreeNode introductionNode = 
+			new DefaultMutableTreeNode(new IntroductionOpenable());
+		final DefaultMutableTreeNode definitionsNode = 
+			new DefaultMutableTreeNode("Definitions");
+		final DefaultMutableTreeNode algorithmicStatusNode =
+			new DefaultMutableTreeNode("Algstatus");
+		final DefaultMutableTreeNode classificationNode =
+			new DefaultMutableTreeNode("Classification");
+		final DefaultMutableTreeNode tasksTypesNode =
+			new DefaultMutableTreeNode("Tasks types");
+		final DefaultMutableTreeNode task1Node =
+			new DefaultMutableTreeNode("Task 1");
+		final DefaultMutableTreeNode task2Node =
+			new DefaultMutableTreeNode("Task 2");
+		final DefaultMutableTreeNode task3Node =
+			new DefaultMutableTreeNode("Task 3");
+		final DefaultMutableTreeNode task4Node =
+			new DefaultMutableTreeNode("Task 4");
+		/* Adding to root. */
+		root.add(introductionNode);
+		root.add(definitionsNode);
+		root.add(algorithmicStatusNode);
+		root.add(classificationNode);
+		root.add(tasksTypesNode);
+		/* Adding to classifications. */
+		classificationNode.add(task1Node);
+		classificationNode.add(task2Node);
+		classificationNode.add(task3Node);
+		classificationNode.add(task4Node);
+		/* Done. */
+		return root;
+	}
+	
+	private Openable getCurrentlySelectedOpenable() {
+		DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode)
+    		navigationTree.getLastSelectedPathComponent();
+		if ((selectedNode != null) && (selectedNode.getUserObject() instanceof Openable)) {
+			return (Openable)selectedNode.getUserObject();
+		} else {
+			return null;
+		}
 	}
 	
 	private final JPanel statusBar;
 	private final JLabel developersLabel;
-	private final JEditorPane editorPane;
-	private final JPanel editorPanel;
-	private final JList algorithmsList;
+	private final JPanel contentsPanel;
 	private final JMenuBar menuBar;
 	private final JMenu fileMenu;
 	private final JMenuItem quitMenuItem;
-	private final JPanel algorithmsPanel;
-	private int historyIndex = -1;
-	private final ArrayList<URL> navigateHistory;
+	private final JPanel navigationPanel;
 	private final JPanel visualizationAvailablePanel;
 	private final JLabel visualizationAvailableLabel;
 	private final JButton showVisualizationButton;
-	private final JToolBar toolbar;
-	private final JButton goBackButton;
-	private final JButton goForwardButton;
-	
-	@Override
-	public void navigate(URL url, boolean addToHistory) {
-		if (addToHistory) {
-			navigateHistory.add(url);
-			historyIndex += 1;
-		}
-		logger.info("Navigating to " + url + " setting historyIndex to " + historyIndex);
-		/* Hotfix. I know that this is the bad code. */
-		int size = algorithmsList.getModel().getSize();
-		for (int i = 0; i < size; i++) {
-			Algorithmized algorithmized = (Algorithmized)algorithmsList.getModel().getElementAt(i);
-			if (algorithmized.getUrl().equals(url)) {
-				algorithmsList.setSelectedIndex(i);
-				visualizationAvailablePanel.setVisible(
-						algorithmized.hasVisualization());
-				break;
-			}
-		}
-		try {
-			editorPane.setPage(url);
-		} catch (IOException e) {
-			editorPane.setText(e.toString());
-			logger.warning(e.toString());
-		}
-	}
+	private final JTree navigationTree;
+	private JScrollPane contentsPane;
 	
 }

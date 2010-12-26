@@ -1,25 +1,12 @@
 package by.bsu.fami.openshop.pack;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
-import java.awt.Point;
-import java.awt.Polygon;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
+import java.awt.*;
+import java.awt.image.*;
+import java.io.*;
+import java.util.*;
 
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class MyPanel extends JPanel implements Runnable {
 
@@ -462,8 +449,6 @@ public class MyPanel extends JPanel implements Runnable {
 
     private void draw3DRect(int i, int j, Work work, Graphics gg) {
         int h = getHeight();
-        int w = getWidth();
-
         int rect1x[] = new int[4];
         int rect1y[] = new int[4];
         int rect2x[] = new int[4];

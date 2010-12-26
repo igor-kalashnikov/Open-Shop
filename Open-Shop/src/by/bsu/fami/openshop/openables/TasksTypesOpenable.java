@@ -2,8 +2,6 @@ package by.bsu.fami.openshop.openables;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
-
 import javax.swing.*;
 
 import by.bsu.fami.openshop.enums.CommonOption;

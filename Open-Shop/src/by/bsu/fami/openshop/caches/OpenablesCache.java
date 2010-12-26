@@ -26,16 +26,20 @@ public class OpenablesCache {
 		if (cache.containsKey(openableClass)) {
 			return cache.get(openableClass);
 		} else {
-			try {
-				logger.info("Initializing of " + openableClass.getName());
-				Openable openable = (Openable)openableClass.newInstance();
-				openable.initialize();
-				cache.put(openableClass, openable);
-				return openable;
-			} catch (Exception e) {
-				logger.severe(e.toString());
-				return null;
-			}
+			return instantiateClass(openableClass);
+		}
+	}
+
+	private Openable instantiateClass(Class<?> openableClass) {
+		try {
+			logger.info("Initializing of " + openableClass.getName());
+			Openable openable = (Openable)openableClass.newInstance();
+			openable.initialize();
+			cache.put(openableClass, openable);
+			return openable;
+		} catch (Exception e) {
+			logger.severe(e.toString());
+			return null;
 		}
 	}
 	

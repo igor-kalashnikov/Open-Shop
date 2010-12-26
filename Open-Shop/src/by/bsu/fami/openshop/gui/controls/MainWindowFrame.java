@@ -154,7 +154,7 @@ public class MainWindowFrame extends JFrame {
 		final DefaultMutableTreeNode classificationNode =
 			new DefaultMutableTreeNode(OpenablesCache.get().getOpenable(ClassificationOpenable.class));
 		final DefaultMutableTreeNode tasksTypesNode =
-			new DefaultMutableTreeNode("Tasks types");
+			new DefaultMutableTreeNode(OpenablesCache.get().getOpenable(TasksTypesOpenable.class));
 		final DefaultMutableTreeNode task1Node =
 			new DefaultMutableTreeNode(OpenablesCache.get().getOpenable(WithoutPreemptionOpenable.class));
 		final DefaultMutableTreeNode task2Node =

@@ -1,0 +1,322 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1251">
+<meta name=Generator content="Microsoft Word 12 (filtered)">
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:Verdana;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:10.0pt;
+	margin-left:0cm;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.MsoAcetate, li.MsoAcetate, div.MsoAcetate
+	{mso-style-link:"Текст выноски Знак";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:8.0pt;
+	font-family:"Tahoma","sans-serif";}
+span.MsoPlaceholderText
+	{color:gray;}
+p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:10.0pt;
+	margin-left:36.0pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.MsoListParagraphCxSpFirst, li.MsoListParagraphCxSpFirst, div.MsoListParagraphCxSpFirst
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.MsoListParagraphCxSpMiddle, li.MsoListParagraphCxSpMiddle, div.MsoListParagraphCxSpMiddle
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.MsoListParagraphCxSpLast, li.MsoListParagraphCxSpLast, div.MsoListParagraphCxSpLast
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:10.0pt;
+	margin-left:36.0pt;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+span.a
+	{mso-style-name:"Текст выноски Знак";
+	mso-style-link:"Текст выноски";
+	font-family:"Tahoma","sans-serif";}
+.MsoPapDefault
+	{margin-bottom:10.0pt;
+	line-height:115%;}
+@page Section1
+	{size:612.0pt 792.0pt;
+	margin:36.0pt 36.0pt 36.0pt 36.0pt;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-US>
+
+<div class=Section1>
+
+<p class=MsoNormal align=center style='text-align:center'><b><span lang=RU
+style='font-size:16.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>Задача
+“</span></b><b><span style='font-size:16.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>Open</span></b><b><span
+style='font-size:16.0pt;line-height:115%;font-family:"Verdana","sans-serif"'> </span></b><b><span
+style='font-size:16.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>Shop</span></b><b><span
+lang=RU style='font-size:16.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>”</span></b></p>
+
+<p class=MsoNormal style='text-align:justify;text-justify:inter-ideograph'><span
+lang=RU style='font-size:10.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-justify:inter-ideograph'><span
+lang=RU style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>Рассмотрим
+общую постановку задачи построения оптимального расписания. Пусть задано
+множество из </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:4.0pt'><img width=9 height=18
+src="Введение.files/image001.gif"></span><span style='font-size:9.0pt;
+line-height:115%;font-family:"Verdana","sans-serif"'> <span lang=RU>работ,
+которые должны быть обслужены </span></span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:4.0pt'><img width=11 height=16
+src="Введение.files/image002.gif"></span><span style='font-size:9.0pt;
+line-height:115%;font-family:"Verdana","sans-serif"'> <span lang=RU>машинами.
+При обслуживании работы машиной возможны два случая: 1) прерывания разрешены,
+2) прерывания  запрещены. Каждая машина может обслуживать не более одной работы,
+и каждая работа может обслуживаться не более чем одной машиной в конкретный
+момент времени.</span></span></p>
+
+<p class=MsoNormal style='text-align:justify;text-justify:inter-ideograph'><span
+lang=RU style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>Для
+</span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:4.0pt'><img width=27 height=16
+src="Введение.files/image003.gif"></span><span lang=RU style='font-size:9.0pt;
+line-height:115%;font-family:"Verdana","sans-serif"'> работы задано время её
+обслуживания </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:4.0pt'><img width=26 height=16
+src="Введение.files/image004.gif"></span><span lang=RU style='font-size:10.0pt;
+line-height:115%;font-family:"Verdana","sans-serif"'> </span><span lang=RU
+style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>машиной
+</span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=15 height=18
+src="Введение.files/image005.gif"></span><span lang=RU style='font-size:9.0pt;
+line-height:115%;font-family:"Verdana","sans-serif"'>. Кроме того, могут быть
+заданы другие характеристики, такие, как: </span></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-align:justify;text-justify:inter-ideograph;
+text-indent:-18.0pt'><span lang=RU style='font-size:9.0pt;line-height:115%;
+font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=RU style='font-size:9.0pt;line-height:115%;font-family:
+"Verdana","sans-serif"'>момент поступления </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:4.0pt'><img width=27 height=16
+src="Введение.files/image003.gif"></span><span lang=RU style='font-size:9.0pt;
+line-height:115%;font-family:"Verdana","sans-serif"'> работы </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=10 height=18
+src="Введение.files/image006.gif"></span><span lang=RU style='font-size:9.0pt;
+line-height:115%;font-family:"Verdana","sans-serif"'>, раньше которого работа
+не может быть обслужена;</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-align:justify;text-justify:
+inter-ideograph;text-indent:-18.0pt'><span lang=RU style='font-size:9.0pt;
+line-height:115%;font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=RU style='font-size:9.0pt;line-height:115%;font-family:
+"Verdana","sans-serif"'>директивный срок </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=12 height=18
+src="Введение.files/image007.gif"></span><span lang=RU style='font-size:9.0pt;
+line-height:115%;font-family:"Verdana","sans-serif"'>, к которому необходимо
+или желательно завершить обслуживание </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:4.0pt'><img width=27 height=16
+src="Введение.files/image003.gif"></span><span lang=RU style='font-size:9.0pt;
+line-height:115%;font-family:"Verdana","sans-serif"'> работы;</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-align:justify;text-justify:
+inter-ideograph;text-indent:-18.0pt'><span lang=RU style='font-size:9.0pt;
+line-height:115%;font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=RU style='font-size:9.0pt;line-height:115%;font-family:
+"Verdana","sans-serif"'>весовой коэффициент </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=13 height=18
+src="Введение.files/image008.gif"></span><span lang=RU style='font-size:9.0pt;
+line-height:115%;font-family:"Verdana","sans-serif"'>, характеризующий
+относительную важность работы </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:4.0pt'><img width=5 height=18
+src="Введение.files/image009.gif"></span><span lang=RU style='font-size:9.0pt;
+line-height:115%;font-family:"Verdana","sans-serif"'>;</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-align:justify;text-justify:inter-ideograph;
+text-indent:-18.0pt'><span lang=RU style='font-size:9.0pt;line-height:115%;
+font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=RU style='font-size:9.0pt;line-height:115%;font-family:
+"Verdana","sans-serif"'>неубывающая функция </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=28 height=20
+src="Введение.files/image010.gif"></span><span lang=RU style='font-size:10.0pt;
+line-height:115%;font-family:"Verdana","sans-serif"'>, определяющая <i>стоимость</i>
+обслуживания этой работы при условии, что её обслуживание завершилось в момент
+времени </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:4.0pt'><img width=6 height=18
+src="Введение.files/image011.gif"></span><span lang=RU style='font-size:10.0pt;
+line-height:115%;font-family:"Verdana","sans-serif"'>;</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-justify:inter-ideograph'><span
+lang=RU style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>Все
+параметры считаются целыми неотрицательными числами.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-justify:inter-ideograph'><span
+lang=RU style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>На
+множестве работ может быть задано отношение порядка. Если работа </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:4.0pt'><img width=5 height=18
+src="Введение.files/image012.gif"></span><span lang=RU style='font-size:9.0pt;
+line-height:115%;font-family:"Verdana","sans-serif"'> предшествует работе </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:4.0pt'><img width=5 height=18
+src="Введение.files/image009.gif"></span><span lang=RU style='font-size:9.0pt;
+line-height:115%;font-family:"Verdana","sans-serif"'>, то обслуживание работы<b>
+</b></span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:4.0pt'><img width=5 height=16
+src="Введение.files/image013.gif"></span><span lang=RU style='font-size:9.0pt;
+line-height:115%;font-family:"Verdana","sans-serif"'> не может быть начато до
+завершения обслуживания работы </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:4.0pt'><img width=4 height=16
+src="Введение.files/image014.gif"></span><span lang=RU style='font-size:9.0pt;
+line-height:115%;font-family:"Verdana","sans-serif"'>.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-justify:inter-ideograph'><i><span
+lang=RU style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>Расписание</span></i><span
+lang=RU style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>
+– это функция, которая каждой машине в каждый момент времени сопоставляет
+работу, обслуживаемую на этой машине, либо указывает, что машина простаивает.
+Наиболее известной графической формой представления расписания служат диаграммы
+Гантта.</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-justify:inter-ideograph'><span
+lang=RU style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>Задачи
+построения оптимальных расписаний можно поделить на классы в зависимости от
+типа обслуживающей системы. Различают следующие типы обслуживающих систем:</span></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-align:justify;text-justify:inter-ideograph;
+text-indent:-18.0pt'><span lang=RU style='font-size:9.0pt;line-height:115%;
+font-family:"Verdana","sans-serif"'>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span></span><span lang=RU style='font-size:9.0pt;line-height:115%;font-family:
+"Verdana","sans-serif"'>Одностадийные (каждая работа может быть полностью
+обслужена одной из имеющихся машин, т.е. машины работают <i>параллельно</i>)</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-align:justify;text-justify:
+inter-ideograph;text-indent:-18.0pt'><span lang=RU style='font-size:9.0pt;
+line-height:115%;font-family:"Verdana","sans-serif"'>2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span></span><span lang=RU style='font-size:9.0pt;line-height:115%;font-family:
+"Verdana","sans-serif"'>Многостадийные (каждая работа должна быть обслужена
+несколькими машинами, т.е. для каждой работы должна быть выполнена её <i>операция</i>
+на соответствующей машине). Многостадийные обслуживающие системы (</span><span
+style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>“General
+Shop”</span><span lang=RU style='font-size:9.0pt;line-height:115%;font-family:
+"Verdana","sans-serif"'>)</span><span lang=RU style='font-size:9.0pt;
+line-height:115%;font-family:"Verdana","sans-serif"'> </span><span lang=RU
+style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>делятся
+на:</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:72.0pt;text-align:justify;
+text-justify:inter-ideograph;text-indent:-18.0pt'><span lang=RU
+style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>a.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+lang=RU style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>Система
+“</span><span style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>Open</span><span
+style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'> </span><span
+style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>Shop</span><span
+lang=RU style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>”:
+каждая работа должна быть обслужена каждой машиной в произвольном порядке
+(система с нефиксированными маршрутами)</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:72.0pt;text-align:justify;
+text-justify:inter-ideograph;text-indent:-18.0pt'><span lang=RU
+style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>b.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span><span
+lang=RU style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>Система
+“</span><span style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>Job</span><span
+style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'> </span><span
+style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>Shop</span><span
+lang=RU style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>”:
+для каждой работы задан порядок выполнения её операций машинами (система с
+различными маршрутами)</span></p>
+
+<p class=MsoListParagraphCxSpLast style='margin-left:72.0pt;text-align:justify;
+text-justify:inter-ideograph;text-indent:-18.0pt'><span lang=RU
+style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>c.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+lang=RU style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>Система
+“</span><span style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>Flow</span><span
+style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'> </span><span
+style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>Shop</span><span
+lang=RU style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>”:
+для всех работ задан одинаковый порядок обслуживания машинами (система
+поточного типа)</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-justify:inter-ideograph'><span
+lang=RU style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>Будем
+рассматривать системы типа “</span><span style='font-size:9.0pt;line-height:
+115%;font-family:"Verdana","sans-serif"'>Open</span><span style='font-size:
+9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'> </span><span
+style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>Shop</span><span
+lang=RU style='font-size:9.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>”.
+</span></p>
+
+<p class=MsoNormal style='text-align:justify;text-justify:inter-ideograph'><span
+lang=RU style='font-size:10.0pt;line-height:115%;font-family:"Verdana","sans-serif"'>&nbsp;</span></p>
+
+</div>
+
+</body>
+
+</html>

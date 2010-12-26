@@ -26,7 +26,7 @@ import by.bsu.fami.openshop.resources.ResourcesProvider;
  */
 public class Application {
 
-	private static final Logger logger = 
+	public static final Logger LOGGER = 
 		Logger.getLogger(Application.class.getName());
 	
 	private static SplashFrame splash;
@@ -34,7 +34,7 @@ public class Application {
 	private static MainWindowFrame mainWindow;
 	
 	public static void main(String[] args) {
-		logger.info(ResourcesProvider.get().getString("openshop.log.starting"));
+		LOGGER.info(ResourcesProvider.get().getString("openshop.log.starting"));
 		
 		setLookAndFeel();
 		
@@ -63,7 +63,7 @@ public class Application {
 	        UIManager.setLookAndFeel(
 	            UIManager.getSystemLookAndFeelClassName());
 	    } catch (Exception e) { 
-	    	logger.warning(e.toString());
+	    	LOGGER.warning(e.toString());
 	    }
 	}
 	

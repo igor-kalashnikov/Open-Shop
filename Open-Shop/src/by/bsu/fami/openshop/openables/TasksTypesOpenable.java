@@ -1,6 +1,8 @@
 package by.bsu.fami.openshop.openables;
 
 import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
 
 import javax.swing.*;
 
@@ -8,7 +10,7 @@ import by.bsu.fami.openshop.enums.CommonOption;
 import by.bsu.fami.openshop.interfaces.Openable;
 import by.bsu.fami.openshop.resources.ResourcesProvider;
 
-public class TasksTypesOpenable implements Openable {
+public class TasksTypesOpenable implements Openable, ItemListener {
 
 	@Override
 	public Component getUI() {
@@ -30,6 +32,8 @@ public class TasksTypesOpenable implements Openable {
 			initializeSettingsPanel();
 			/* Target panel. */
 			initializeUiPanel();
+			/* Update ... */
+			updateProblemField();
 		}
 	}
 
@@ -54,6 +58,7 @@ public class TasksTypesOpenable implements Openable {
 				CommonOption.TARGET_FUNCTION_W_J_U_J,
 				CommonOption.TARGET_FUNCTION_W_J_T_J
 		});
+		targetFunctionBox.addItemListener(this);
 	}
 
 	private void initializePrecedenceRelationsBox() {
@@ -65,6 +70,7 @@ public class TasksTypesOpenable implements Openable {
 				CommonOption.PRECEDENCE_RELATIONS_OUT_TREE,
 				CommonOption.PRECEDENCE_RELATIONS_CHAINS
 		});
+		precedenceRelationsBox.addItemListener(this);
 	}
 
 	private void initializeAddingTimesBox() {
@@ -72,6 +78,7 @@ public class TasksTypesOpenable implements Openable {
 				CommonOption.ADDING_TIMES_0,
 				CommonOption.ADDING_TIMES_ANY
 		});
+		jobsAddingTimesBox.addItemListener(this);
 	}
 
 	private void initializeSettingsPanel() {
@@ -101,6 +108,7 @@ public class TasksTypesOpenable implements Openable {
 				CommonOption.SERVING_TIME_IDENTITY,
 				CommonOption.SERVING_TIME_ANY
 		});
+		servingTimeBox.addItemListener(this);
 	}
 
 	private void initializeInterruptsBox() {
@@ -108,6 +116,7 @@ public class TasksTypesOpenable implements Openable {
 				CommonOption.INTERRUPTS_DENIED,
 				CommonOption.INTERRUPTS_ALLOWED
 		});
+		interruptsBox.addItemListener(this);
 	}
 
 	private void initializeMachinesCountBox() {
@@ -118,6 +127,7 @@ public class TasksTypesOpenable implements Openable {
 				CommonOption.MACHINES_COUNT_3,
 				CommonOption.MACHINES_COUNT_M
 		});
+		machinesCountBox.addItemListener(this);
 	}
 	
 	@Override
@@ -142,5 +152,28 @@ public class TasksTypesOpenable implements Openable {
 	private JComboBox targetFunctionBox;
 	
 	private JTextField problemField;
+
+	@Override
+	public void itemStateChanged(ItemEvent evt) {
+		if (evt.getStateChange() == ItemEvent.SELECTED) {
+			updateProblemField();
+		}
+	}
+
+	private void updateProblemField() {
+		StringBuilder builder = new StringBuilder();
+		for (Component component : settingsPanel.getComponents()) {
+			if (component instanceof JComboBox) {
+				CommonOption option = (CommonOption)((JComboBox)component).getSelectedItem();
+				if (option.getOptionValue() != null) {
+					if (builder.length() != 0) {
+						builder.append("|");
+					}
+					builder.append(option.getOptionValue());
+				}
+			}
+		}
+		problemField.setText(builder.toString());
+	}
 
 }

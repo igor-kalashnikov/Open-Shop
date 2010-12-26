@@ -1,5 +1,6 @@
 package by.bsu.fami.openshop.enums;
 
+import by.bsu.fami.openshop.Application;
 import by.bsu.fami.openshop.interfaces.Option;
 import by.bsu.fami.openshop.resources.ResourcesProvider;
 
@@ -42,10 +43,20 @@ public enum CommonOption implements Option {
 	}
 	
 	private CommonOption(String key) {
-		String fullValue = ResourcesProvider.get().getString(key);
-		String[] splitted = fullValue.split("\\|");
-		uiText = splitted[0];
-		value = splitted[1];
+		try {
+			String fullValue = ResourcesProvider.get().getString(key);
+			String[] splitted = fullValue.split("\\|");
+			uiText = splitted[0];
+			if (splitted.length < 2 || splitted[1].length() == 0) {
+				value = null;
+			} else {
+				value = splitted[1];
+			}
+		} catch (Exception e) {
+			Application.LOGGER.severe("Exception during initializing option [" + key + "]: " + e.toString());
+			uiText = "[Error occured]";
+			value = "[Error occured]";
+		}
 	}
 	
 	@Override
@@ -53,8 +64,8 @@ public enum CommonOption implements Option {
 		return value;
 	}
 	
-	private final String uiText;
+	private String uiText;
 	
-	private final String value;
+	private String value;
 
 }

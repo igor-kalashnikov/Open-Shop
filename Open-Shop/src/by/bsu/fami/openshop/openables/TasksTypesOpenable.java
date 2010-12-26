@@ -28,23 +28,23 @@ public class TasksTypesOpenable implements Openable {
 			problemField.setEditable(false);
 			/* Adding all. */
 			settingsPanel = new JPanel(new GridLayout(18, 1));
-			settingsPanel.add(new JLabel("Serving system"));
+			settingsPanel.add(new JLabel(ResourcesProvider.get().getString("openshop.tree.tasksTypes.servingSystem")));
 			settingsPanel.add(machinesCountBox);
 			settingsPanel.add(new JSeparator(JSeparator.HORIZONTAL));
-			settingsPanel.add(new JLabel("Job characteristics"));
-			settingsPanel.add(new JLabel("Interrupts"));
+			settingsPanel.add(new JLabel(ResourcesProvider.get().getString("openshop.tree.tasksTypes.characteristics")));
+			settingsPanel.add(new JLabel(ResourcesProvider.get().getString("openshop.tree.tasksTypes.characteristics.interrupts")));
 			settingsPanel.add(interruptsBox);
-			settingsPanel.add(new JLabel("Serving time"));
+			settingsPanel.add(new JLabel(ResourcesProvider.get().getString("openshop.tree.tasksTypes.characteristics.servingTime")));
 			settingsPanel.add(servingTimeBox);
-			settingsPanel.add(new JLabel("Jobs adding times"));
+			settingsPanel.add(new JLabel(ResourcesProvider.get().getString("openshop.tree.tasksTypes.characteristics.addingTimes")));
 			settingsPanel.add(jobsAddingTimesBox);
-			settingsPanel.add(new JLabel("Precedence relations"));
+			settingsPanel.add(new JLabel(ResourcesProvider.get().getString("openshop.tree.tasksTypes.characteristics.precedenceRelations")));
 			settingsPanel.add(precedenceRelationsBox);
 			settingsPanel.add(new JSeparator(JSeparator.HORIZONTAL));
-			settingsPanel.add(new JLabel("Target function"));
+			settingsPanel.add(new JLabel(ResourcesProvider.get().getString("openshop.tree.tasksTypes.targetFunction")));
 			settingsPanel.add(targetFunctionBox);
 			settingsPanel.add(new JSeparator(JSeparator.HORIZONTAL));
-			settingsPanel.add(new JLabel("Problem"));
+			settingsPanel.add(new JLabel(ResourcesProvider.get().getString("openshop.tree.tasksTypes.problem")));
 			settingsPanel.add(problemField);
 			
 			/* Target panel. */

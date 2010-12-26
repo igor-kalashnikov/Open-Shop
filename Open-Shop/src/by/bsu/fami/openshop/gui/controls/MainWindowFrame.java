@@ -70,6 +70,7 @@ public class MainWindowFrame extends JFrame {
 					}
 					contentsPane = new JScrollPane(openable.getUI());
 					contentsPanel.add(contentsPane, BorderLayout.CENTER);
+					visualizationAvailablePanel.setVisible(openable.hasVisualization());
 					contentsPanel.updateUI();
 				}
 			}
@@ -139,6 +140,7 @@ public class MainWindowFrame extends JFrame {
 	}
 
 	private DefaultMutableTreeNode createNavigationNodes() {
+		logger.info("Creating nodes ...");
 		/* Creating root node. */
 		final DefaultMutableTreeNode root = new DefaultMutableTreeNode(
 				ResourcesProvider.get().getString("openshop.tree.root"));
@@ -146,11 +148,11 @@ public class MainWindowFrame extends JFrame {
 		final DefaultMutableTreeNode introductionNode = 
 			new DefaultMutableTreeNode(new IntroductionOpenable());
 		final DefaultMutableTreeNode definitionsNode = 
-			new DefaultMutableTreeNode("Definitions");
+			new DefaultMutableTreeNode(new DefinitionsOpenable());
 		final DefaultMutableTreeNode algorithmicStatusNode =
-			new DefaultMutableTreeNode("Algstatus");
+			new DefaultMutableTreeNode(new AlgorithmicalStatusOpenable());
 		final DefaultMutableTreeNode classificationNode =
-			new DefaultMutableTreeNode("Classification");
+			new DefaultMutableTreeNode(new ClassificationOpenable());
 		final DefaultMutableTreeNode tasksTypesNode =
 			new DefaultMutableTreeNode("Tasks types");
 		final DefaultMutableTreeNode task1Node =

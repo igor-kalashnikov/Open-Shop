@@ -32,7 +32,7 @@ public class MainWindowFrame extends JFrame {
 		super(ResourcesProvider.get().getString("openshop.mainWindow.title"));
 		
 		/* Common. */
-		setSize(800, 600);
+		setSize(1024, 768);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
@@ -70,7 +70,6 @@ public class MainWindowFrame extends JFrame {
 					}
 					contentsPane = new JScrollPane(openable.getUI());
 					contentsPanel.add(contentsPane, BorderLayout.CENTER);
-					visualizationAvailablePanel.setVisible(openable.hasVisualization());
 					contentsPanel.updateUI();
 				}
 			}
@@ -111,7 +110,7 @@ public class MainWindowFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent evt) {
-				getCurrentlySelectedOpenable().showVisualization();
+				// getCurrentlySelectedOpenable().showVisualization();
 			}
 		});
         visualizationAvailablePanel.add(showVisualizationButton, BorderLayout.EAST);
@@ -156,13 +155,13 @@ public class MainWindowFrame extends JFrame {
 		final DefaultMutableTreeNode tasksTypesNode =
 			new DefaultMutableTreeNode("Tasks types");
 		final DefaultMutableTreeNode task1Node =
-			new DefaultMutableTreeNode("Task 1");
+			new DefaultMutableTreeNode(new WithoutPreemptionOpenable());
 		final DefaultMutableTreeNode task2Node =
-			new DefaultMutableTreeNode("Task 2");
+			new DefaultMutableTreeNode(new WithPreemptionOpenable());
 		final DefaultMutableTreeNode task3Node =
-			new DefaultMutableTreeNode("Task 3");
+			new DefaultMutableTreeNode(new WithNowaitOpenable());
 		final DefaultMutableTreeNode task4Node =
-			new DefaultMutableTreeNode("Task 4");
+			new DefaultMutableTreeNode(new WithTransportationDelaysOpenable());
 		/* Adding to root. */
 		root.add(introductionNode);
 		root.add(definitionsNode);

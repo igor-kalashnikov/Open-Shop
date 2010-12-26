@@ -21,16 +21,6 @@ public abstract class HtmlOpenable implements Openable {
 		initialize();
 		return editorPane;
 	}
-
-	@Override
-	public boolean hasVisualization() {
-		return false;
-	}
-
-	@Override
-	public void showVisualization() {
-		// Do nothing.
-	}
 	
 	@Override
 	public void initialize() {

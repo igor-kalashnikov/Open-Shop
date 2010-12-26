@@ -1,9 +1,11 @@
 package by.bsu.fami.openshop.resources;
 
-import java.awt.Image;
+import java.awt.*;
 import java.net.URL;
 import java.util.*;
 import java.util.logging.*;
+
+import javax.swing.*;
 
 /**
  * This class is used to load all the resources in the application.
@@ -80,6 +82,13 @@ public class ResourcesProvider {
 	 */
 	public Image getImage(String key) {
 		return imagesBundle.getImage(key);
+	}
+	
+	/**
+	 * Gets the icon.
+	 */
+	public Icon getIcon(String key) {
+		return new ImageIcon(imagesBundle.getImage(key));
 	}
 	
 	/**

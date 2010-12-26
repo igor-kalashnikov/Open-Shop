@@ -17,7 +17,7 @@ public class OpenablesCache {
 		return instance;
 	}
 	
-	private final Hashtable<Class<?>,Openable> cache;
+	private final Hashtable<Class<?>, Openable> cache;
 	
 	private static final Logger logger = 
 		Logger.getLogger(OpenablesCache.class.getName());
@@ -27,6 +27,7 @@ public class OpenablesCache {
 			return cache.get(openableClass);
 		} else {
 			try {
+				logger.info("Initializing of " + openableClass.getName());
 				Openable openable = (Openable)openableClass.newInstance();
 				openable.initialize();
 				cache.put(openableClass, openable);

@@ -16,7 +16,6 @@ public class InputTestDialog extends JDialog {
     public static final int CANCEL_OPTION = 1;
     public static final int ERROR_OPTION = 3;
 
-
     private int resalt = ERROR_OPTION;
 
     private JButton input = null;
@@ -26,11 +25,11 @@ public class InputTestDialog extends JDialog {
     private int a[][];
     private JTable table = null;
     private JScrollPane scroll = null;
-    private JPanel panell=null;
+    private JPanel panell = null;
 
     public InputTestDialog(JFrame parent, String title, boolean mode) {
         super(parent, title, mode);
-       
+
         panel = new PanelForInput(this);
 
         input = new JButton("Input");
@@ -86,7 +85,7 @@ public class InputTestDialog extends JDialog {
         try {
             n = Integer.parseInt(panel.getN());
             m = Integer.parseInt(panel.getM());
-            if ((n <= 0) && (m <= 0)) {
+            if ((n <= 0) || (m <= 0) || (n > 10) || (m > 10)) {
                 throw new Exception("Incorrect");
             }
 
@@ -94,7 +93,7 @@ public class InputTestDialog extends JDialog {
                 remove(scroll);
             }
             table = new JTable(n, m);
-            panell=new JPanel();
+            panell = new JPanel();
             panell.add(table);
             scroll = new JScrollPane(panell);
             add(scroll, BorderLayout.CENTER);
@@ -111,18 +110,18 @@ public class InputTestDialog extends JDialog {
         return resalt;
     }
 
-    public int getN(){
+    public int getN() {
         return n;
     }
-    
-    public int getM(){
+
+    public int getM() {
         return m;
     }
-    
-    public int[][] getMatrix(){
+
+    public int[][] getMatrix() {
         return a;
     }
-    
+
     public void paint(Graphics g) {
         super.paint(g);
     }

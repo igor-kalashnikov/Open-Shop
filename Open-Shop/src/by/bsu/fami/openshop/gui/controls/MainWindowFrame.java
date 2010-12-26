@@ -86,6 +86,7 @@ public class MainWindowFrame extends JFrame implements Navigateable {
         algorithms.addAll(new FakePagesLoader().loadFakePages());
         algorithmsList = new JList(algorithms);
         algorithmsList.setSize(150, 0);
+        algorithmsList.setMaximumSize(new Dimension(150, 100500));
         algorithmsList.addMouseListener(new MouseAdapter() {
         	
         	@Override

@@ -2,7 +2,13 @@ package by.bsu.fami.openshop.pack;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Point;
+import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -44,16 +50,20 @@ public class MyPanel extends JPanel implements Runnable {
     private int numberRecord = 0;
     private Records records = null;
 
-    public final static int SEARCH=0;
-    public final static int APPROXIMATE=1;
-    
-    private int styleAnswer=0;
-    
+    public final static int SEARCH = 0;
+    public final static int APPROXIMATE = 1;
+
+    private int styleAnswer = 0;
+    private Color colors[] = { Color.BLUE, Color.CYAN, Color.GREEN,
+            Color.MAGENTA, Color.ORANGE, Color.PINK, Color.RED, Color.YELLOW };
+    private Color colorsLight[];
+
     public MyPanel(Resh ff, String filename, int t, boolean per, int style) {
         miin = 999999;
         perebor = per;
         timedelay = t;
-        styleAnswer=style;
+
+        styleAnswer = style;
         records = new Records();
         try {
             BufferedReader br = new BufferedReader(new FileReader(filename));
@@ -68,6 +78,7 @@ public class MyPanel extends JPanel implements Runnable {
                     a[i][j] = Integer.parseInt(stt.nextToken());
                 }
             }
+            initColors();
             initialization();
 
         } catch (Exception e) {
@@ -78,7 +89,8 @@ public class MyPanel extends JPanel implements Runnable {
         repaint();
     }
 
-    public MyPanel(Resh ff, int t, boolean per, int nn, int mm, int aa[][], int style) {
+    public MyPanel(Resh ff, int t, boolean per, int nn, int mm, int aa[][],
+            int style) {
         miin = 999999;
         perebor = per;
         timedelay = t;
@@ -86,8 +98,18 @@ public class MyPanel extends JPanel implements Runnable {
         n = nn;
         m = mm;
         a = aa;
-        styleAnswer=style;
+        styleAnswer = style;
+        initColors();
         initialization();
+    }
+
+    private void initColors() {
+        colorsLight = new Color[colors.length];
+        for (int i = 0; i < colors.length; i++) {
+            colorsLight[i] = new Color(colors[i].getRed(),
+                    colors[i].getGreen(), colors[i].getBlue(), colors[i]
+                            .getTransparency() + 50);
+        }
     }
 
     private void initialization() {
@@ -250,7 +272,7 @@ public class MyPanel extends JPanel implements Runnable {
                                     && (!masbool[massstack[i]][mn])) {
                                 int t = mass[mn];
                                 int tk = 0;
-                                if (mass[kk] + masost[mn] <=miin) {
+                                if (mass[kk] + masost[mn] <= miin) {
                                     if (mass[kk] > mass[mn]) {
                                         mass[mn] = mass[kk]
                                                 + a[massstack[i]][mn];
@@ -297,7 +319,7 @@ public class MyPanel extends JPanel implements Runnable {
             }
         } else {
             int mx = findMax();
-            
+
             if (mx == miin) {
                 if (perebor) {
                     repaint();
@@ -321,7 +343,7 @@ public class MyPanel extends JPanel implements Runnable {
                     records.add(record);
                 }
             }
-           
+
             if (mx < miin) {
                 if (perebor) {
                     repaint();
@@ -347,7 +369,6 @@ public class MyPanel extends JPanel implements Runnable {
         }
     }
 
-    
     private int findMin() {
         int index = -1;
         int minn = 999999;
@@ -391,7 +412,7 @@ public class MyPanel extends JPanel implements Runnable {
                 }
             }
         return ind;
-    } 
+    }
 
     public void setdelay(int t) {
         timedelay = t;
@@ -399,10 +420,10 @@ public class MyPanel extends JPanel implements Runnable {
 
     public void run() {
         running = true;
-        if (styleAnswer==MyPanel.APPROXIMATE){
-        findAnswerRoughly();
-        }else{
-        findAnswerSearch();    
+        if (styleAnswer == MyPanel.APPROXIMATE) {
+            findAnswerRoughly();
+        } else {
+            findAnswerSearch();
         }
         running = false;
         repaint();
@@ -439,6 +460,57 @@ public class MyPanel extends JPanel implements Runnable {
         return true;
     }
 
+    private void draw3DRect(int i, int j, Work work, Graphics gg) {
+        int h = getHeight();
+        int w = getWidth();
+
+        int rect1x[] = new int[4];
+        int rect1y[] = new int[4];
+        int rect2x[] = new int[4];
+        int rect2y[] = new int[4];
+        rect1x[0] = SHIFT + i * WIDTHW;
+        rect1x[1] = SHIFT + i * WIDTHW + WIDTHW / 4;
+        rect1x[2] = SHIFT + (i + 1) * WIDTHW + WIDTHW / 4;
+        rect1x[3] = SHIFT + (i + 1) * WIDTHW;
+        rect1y[0] = h - SHIFT - work.getBeginTime() * HEIGHTW
+                - work.getWorkTime() * HEIGHTW;
+        rect1y[1] = h - SHIFT - work.getBeginTime() * HEIGHTW
+                - work.getWorkTime() * HEIGHTW - WIDTHW / 4;
+        rect1y[2] = h - SHIFT - work.getBeginTime() * HEIGHTW
+                - work.getWorkTime() * HEIGHTW - WIDTHW / 4;
+        rect1y[3] = h - SHIFT - work.getBeginTime() * HEIGHTW
+                - work.getWorkTime() * HEIGHTW;
+        rect2x[0] = SHIFT + (i + 1) * WIDTHW;
+        rect2x[1] = SHIFT + (i + 1) * WIDTHW;
+        rect2x[2] = SHIFT + (i + 1) * WIDTHW + WIDTHW / 4;
+        rect2x[3] = SHIFT + (i + 1) * WIDTHW + WIDTHW / 4;
+        rect2y[0] = h - SHIFT - work.getBeginTime() * HEIGHTW;
+        rect2y[1] = h - SHIFT - work.getBeginTime() * HEIGHTW
+                - work.getWorkTime() * HEIGHTW;
+        rect2y[2] = h - SHIFT - work.getBeginTime() * HEIGHTW
+                - work.getWorkTime() * HEIGHTW - WIDTHW / 4;
+        rect2y[3] = h - SHIFT - work.getBeginTime() * HEIGHTW - WIDTHW / 4;
+
+        Polygon p1 = new Polygon(rect1x, rect1y, 4);
+        Polygon p2 = new Polygon(rect2x, rect2y, 4);
+        gg.setColor(colorsLight[i%colorsLight.length]);
+        gg.fillPolygon(p1);
+        gg.fillPolygon(p2);
+        gg.setColor(colors[i%colors.length]);
+        gg.fillRect(SHIFT + i * WIDTHW, h - SHIFT
+                - (work.getBeginTime() + work.getWorkTime()) * HEIGHTW, WIDTHW,
+                work.getWorkTime() * HEIGHTW);
+        gg.setColor(Color.BLACK);
+        gg.drawRect(SHIFT + i * WIDTHW, h - SHIFT
+                - (work.getBeginTime() + work.getWorkTime()) * HEIGHTW, WIDTHW,
+                work.getWorkTime() * HEIGHTW);
+        gg.drawPolygon(p1);
+        gg.drawPolygon(p2);
+        gg.drawString((work.getWork() + 1) + " ", SHIFT + i * WIDTHW + WIDTHW
+                / 2, h - SHIFT - HEIGHTW * work.getBeginTime()
+                - work.getWorkTime() * HEIGHTW / 2);
+    }
+
     private void drawWork(ArrayList<ArrayList<Work>> wk, Graphics gg) {
         int h = getHeight();
         int w = getWidth();
@@ -459,23 +531,7 @@ public class MyPanel extends JPanel implements Runnable {
                         repaint();
                         return;
                     }
-                    gg.fillRect(SHIFT + i * WIDTHW, h
-                            - SHIFT
-                            - (wk.get(i).get(j).getBeginTime() + wk.get(i).get(
-                                    j).getWorkTime()) * HEIGHTW, WIDTHW, wk
-                            .get(i).get(j).getWorkTime()
-                            * HEIGHTW);
-                    gg.setColor(Color.BLACK);
-                    gg.drawRect(SHIFT + i * WIDTHW, h
-                            - SHIFT
-                            - (wk.get(i).get(j).getBeginTime() + wk.get(i).get(
-                                    j).getWorkTime()) * HEIGHTW, WIDTHW, wk
-                            .get(i).get(j).getWorkTime()
-                            * HEIGHTW);
-                    gg.drawString((wk.get(i).get(j).getWork() + 1) + " ", SHIFT
-                            + i * WIDTHW + WIDTHW / 2, h - SHIFT - HEIGHTW
-                            * wk.get(i).get(j).getBeginTime()
-                            - wk.get(i).get(j).getWorkTime() * HEIGHTW / 2);
+                    draw3DRect(i, j, wk.get(i).get(j), gg);
                 }
             }
         }
@@ -484,7 +540,13 @@ public class MyPanel extends JPanel implements Runnable {
         } else {
             gg.drawString("Min time-?", w - 2 * WIDTHW, WIDTHW);
         }
-
+        if (styleAnswer == MyPanel.SEARCH) {
+            gg.drawString("Number of records-" + records.length(), w - 3
+                    * WIDTHW, WIDTHW + 20);
+        }
+        if (running) {
+            gg.drawString("Running", w - 3 * WIDTHW, WIDTHW + 40);
+        }
         for (int i = 1; i <= coof; i++) {
             gg.drawLine(SHIFT - 5, h - SHIFT - i * HEIGHTW * 5, SHIFT, h
                     - SHIFT - i * HEIGHTW * 5);

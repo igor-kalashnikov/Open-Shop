@@ -14,6 +14,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
 public class Resh extends JFrame {
 
@@ -29,7 +31,6 @@ public class Resh extends JFrame {
     private JMenuItem saveimage = null;
     private MyPanel panel = null;
     private int timedelay = 1000;
-
     private int styleAnswer=0;
     
     public Resh(String title, int style) {

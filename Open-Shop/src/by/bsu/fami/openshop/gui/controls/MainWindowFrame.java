@@ -9,6 +9,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.event.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import by.bsu.fami.openshop.caches.OpenablesCache;
 import by.bsu.fami.openshop.interfaces.Openable;
 import by.bsu.fami.openshop.openables.*;
 import by.bsu.fami.openshop.resources.ResourcesProvider;
@@ -145,23 +146,23 @@ public class MainWindowFrame extends JFrame {
 				ResourcesProvider.get().getString("openshop.tree.root"));
 		/* Creating child nodes. */
 		final DefaultMutableTreeNode introductionNode = 
-			new DefaultMutableTreeNode(new IntroductionOpenable());
+			new DefaultMutableTreeNode(OpenablesCache.get().getOpenable(IntroductionOpenable.class));
 		final DefaultMutableTreeNode definitionsNode = 
-			new DefaultMutableTreeNode(new DefinitionsOpenable());
+			new DefaultMutableTreeNode(OpenablesCache.get().getOpenable(DefinitionsOpenable.class));
 		final DefaultMutableTreeNode algorithmicStatusNode =
-			new DefaultMutableTreeNode(new AlgorithmicalStatusOpenable());
+			new DefaultMutableTreeNode(OpenablesCache.get().getOpenable(AlgorithmicalStatusOpenable.class));
 		final DefaultMutableTreeNode classificationNode =
-			new DefaultMutableTreeNode(new ClassificationOpenable());
+			new DefaultMutableTreeNode(OpenablesCache.get().getOpenable(ClassificationOpenable.class));
 		final DefaultMutableTreeNode tasksTypesNode =
 			new DefaultMutableTreeNode("Tasks types");
 		final DefaultMutableTreeNode task1Node =
-			new DefaultMutableTreeNode(new WithoutPreemptionOpenable());
+			new DefaultMutableTreeNode(OpenablesCache.get().getOpenable(WithoutPreemptionOpenable.class));
 		final DefaultMutableTreeNode task2Node =
-			new DefaultMutableTreeNode(new WithPreemptionOpenable());
+			new DefaultMutableTreeNode(OpenablesCache.get().getOpenable(WithPreemptionOpenable.class));
 		final DefaultMutableTreeNode task3Node =
-			new DefaultMutableTreeNode(new WithNowaitOpenable());
+			new DefaultMutableTreeNode(OpenablesCache.get().getOpenable(WithNowaitOpenable.class));
 		final DefaultMutableTreeNode task4Node =
-			new DefaultMutableTreeNode(new WithTransportationDelaysOpenable());
+			new DefaultMutableTreeNode(OpenablesCache.get().getOpenable(WithTransportationDelaysOpenable.class));
 		/* Adding to root. */
 		root.add(introductionNode);
 		root.add(definitionsNode);

@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.*;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import by.bsu.fami.openshop.caches.OpenablesCache;
@@ -59,7 +60,8 @@ public class MainWindowFrame extends JFrame {
         contentsPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
 		
         /* Navigation. */
-        navigationTree = new JTree(createNavigationNodes());
+        treeModel = new DefaultTreeModel(createNavigationNodes());
+        navigationTree = new JTree(treeModel);
         expandNavigationTree();
         navigationTree.addTreeSelectionListener(new TreeSelectionListener() {
 			
@@ -192,7 +194,7 @@ public class MainWindowFrame extends JFrame {
 	public void selectSearchResult(DefaultMutableTreeNode resultsNode, boolean append) {
 		logger.info("Selecting results node. Append: " + append);
 		if (append) {
-			tasksTypesNode.add(resultsNode);
+			treeModel.insertNodeInto(resultsNode, tasksTypesNode, 0);
 		}
 		navigationTree.setSelectionPath(new TreePath(resultsNode.getPath()));
 	}
@@ -211,5 +213,6 @@ public class MainWindowFrame extends JFrame {
 	private JScrollPane contentsPane;
 	private DefaultMutableTreeNode root;
 	private DefaultMutableTreeNode tasksTypesNode;
+	private DefaultTreeModel treeModel;
 	
 }

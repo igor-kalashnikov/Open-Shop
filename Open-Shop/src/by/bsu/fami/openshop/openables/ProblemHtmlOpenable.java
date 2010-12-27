@@ -12,7 +12,8 @@ public class ProblemHtmlOpenable extends HtmlOpenable {
 	public ProblemHtmlOpenable(int index) {
 		this.url = ResourcesProvider.class.getResource(prefix + index + suffix);;
 		this.title = SearchResultsCache.get().getProblemsQueries()[index];
-		alias = title.replace('|', '_');
+		alias = title.replace('|', '_').replace(';', '_').replace('(', '_').replace(')', '_').replace('=', '_');
+		// Application.LOGGER.info(alias);
 	}
 	
 	private final String title;

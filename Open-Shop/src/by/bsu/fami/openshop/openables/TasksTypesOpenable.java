@@ -90,6 +90,7 @@ public class TasksTypesOpenable implements Openable, ItemListener {
 
 	private void initializeTargetFunctionBox() {
 		targetFunctionBox = new JComboBox(new CommonOption[] {
+				CommonOption.TARGET_FUNCTION_EMPTY,
 				CommonOption.TARGET_FUNCTION_C_MAX,
 				CommonOption.TARGET_FUNCTION_L_MAX,
 				CommonOption.TARGET_FUNCTION_C_J,
@@ -163,6 +164,7 @@ public class TasksTypesOpenable implements Openable, ItemListener {
 
 	private void initializeMachinesCountBox() {
 		machinesCountBox = new JComboBox(new CommonOption[] {
+				CommonOption.MACHINES_COUNT_EMPTY,
 				CommonOption.MACHINES_COUNT_ANY,
 				CommonOption.MACHINES_COUNT_1,
 				CommonOption.MACHINES_COUNT_2,

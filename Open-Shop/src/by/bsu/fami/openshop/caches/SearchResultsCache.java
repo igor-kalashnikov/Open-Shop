@@ -51,7 +51,13 @@ public class SearchResultsCache {
 	
 	private boolean intersects(String[] sampleTokens, String[] queryTokens) {
 		for (String sampleToken : sampleTokens) {
+			if (sampleToken.length() == 0) {
+				continue;
+			}
 			for (String queryToken : queryTokens) {
+				if (queryToken.length() == 0) {
+					continue;
+				}
 				if (sampleToken.equals(queryToken)) {
 					return true;
 				}

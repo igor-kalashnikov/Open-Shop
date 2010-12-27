@@ -6,6 +6,7 @@ import by.bsu.fami.openshop.resources.ResourcesProvider;
 
 public enum CommonOption implements Option {
 	
+	MACHINES_COUNT_EMPTY("openshop.tree.tasksTypes.machinesCount.empty"),
 	MACHINES_COUNT_ANY("openshop.tree.tasksTypes.machinesCount.any"),
 	MACHINES_COUNT_1("openshop.tree.tasksTypes.machinesCount.1"),
 	MACHINES_COUNT_2("openshop.tree.tasksTypes.machinesCount.2"),
@@ -28,6 +29,7 @@ public enum CommonOption implements Option {
 	PRECEDENCE_RELATIONS_OUT_TREE("openshop.tree.tasksTypes.characteristics.precedenceRelations.out-tree"),
 	PRECEDENCE_RELATIONS_CHAINS("openshop.tree.tasksTypes.characteristics.precedenceRelations.chains"),
 	
+	TARGET_FUNCTION_EMPTY("openshop.tree.tasksTypes.targetFunction.empty"),
 	TARGET_FUNCTION_C_MAX("openshop.tree.tasksTypes.targetFunction.C_max"),
 	TARGET_FUNCTION_L_MAX("openshop.tree.tasksTypes.targetFunction.L_max"),
 	TARGET_FUNCTION_C_J("openshop.tree.tasksTypes.targetFunction.sum(C_j)"),
@@ -46,7 +48,7 @@ public enum CommonOption implements Option {
 		try {
 			String fullValue = ResourcesProvider.get().getString(key);
 			String[] splitted = fullValue.split("\\|");
-			uiText = splitted[0];
+			uiText = splitted.length > 0 ? splitted[0] : "";
 			if (splitted.length < 2 || splitted[1].length() == 0) {
 				value = null;
 			} else {

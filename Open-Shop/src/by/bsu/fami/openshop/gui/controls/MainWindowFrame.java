@@ -13,6 +13,7 @@ import javax.swing.tree.TreePath;
 
 import by.bsu.fami.openshop.caches.OpenablesCache;
 import by.bsu.fami.openshop.interfaces.Openable;
+import by.bsu.fami.openshop.interfaces.Showable;
 import by.bsu.fami.openshop.openables.*;
 import by.bsu.fami.openshop.resources.ResourcesProvider;
 
@@ -217,10 +218,23 @@ public class MainWindowFrame extends JFrame {
 		if (additionalInfo != null) {
 			String[] entries = additionalInfo.split(" ");
 			for (String entry : entries) {
+				String visualizationClassName = 
+					ResourcesProvider.get().getString(key + "." + entry + ".visualization", null);
+				Showable visualization = null;
+				if (visualizationClassName != null) {
+					try {
+						Class<?> clazz = Class.forName(visualizationClassName);
+						visualization = (Showable)clazz.newInstance();
+					} catch (Exception e) {
+						logger.warning(e.toString());
+					}
+				}
 				treeModel.insertNodeInto(new DefaultMutableTreeNode(
 						new ParametrizedHtmlOpenable(
 								ResourcesProvider.get().getUrl(key + "." + entry + ".url"), 
-								ResourcesProvider.get().getString(key + "." + entry))
+								ResourcesProvider.get().getString(key + "." + entry),
+								visualization
+							)
 						),
 						node,
 						0

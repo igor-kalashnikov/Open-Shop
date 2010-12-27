@@ -46,7 +46,7 @@ public class TasksTypesOpenable implements Openable, ItemListener {
 		searchButton.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent evt) {
 				searchProblems();
 			}
 		});
@@ -66,8 +66,9 @@ public class TasksTypesOpenable implements Openable, ItemListener {
 	}
 
 	private DefaultMutableTreeNode performNewSearch(String query) {
-		DefaultMutableTreeNode resultsNode = new DefaultMutableTreeNode(query);
 		Openable[] openables = ProblemsCache.get().getResult(query);
+		DefaultMutableTreeNode resultsNode = new DefaultMutableTreeNode(query + 
+				" (" + openables.length + ")");
 		for (Openable openable : openables) {
 			resultsNode.add(new DefaultMutableTreeNode(openable));
 		}

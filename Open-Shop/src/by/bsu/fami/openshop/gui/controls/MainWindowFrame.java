@@ -79,7 +79,7 @@ public class MainWindowFrame extends JFrame {
         navigationPanel = new JPanel();
         navigationPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
         navigationPanel.setLayout(new BorderLayout());
-        navigationPanel.add(navigationTree, BorderLayout.CENTER);
+        navigationPanel.add(new JScrollPane(navigationTree), BorderLayout.CENTER);
         
         /* Menubar. */
         menuBar = new JMenuBar();
@@ -189,7 +189,8 @@ public class MainWindowFrame extends JFrame {
 		}
 	}
 	
-	public void addSearchResult(DefaultMutableTreeNode resultsNode, boolean append) {
+	public void selectSearchResult(DefaultMutableTreeNode resultsNode, boolean append) {
+		logger.info("Selecting results node. Append: " + append);
 		if (append) {
 			tasksTypesNode.add(resultsNode);
 		}

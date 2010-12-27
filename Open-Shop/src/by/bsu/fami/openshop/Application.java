@@ -83,7 +83,7 @@ public class Application {
 	}
 	
 	public static void selectSearchResult(DefaultMutableTreeNode resultsNode, boolean append) {
-		mainWindow.addSearchResult(resultsNode, append);
+		mainWindow.selectSearchResult(resultsNode, append);
 	}
 
 }

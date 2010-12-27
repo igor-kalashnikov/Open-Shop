@@ -2,13 +2,12 @@ package by.bsu.fami.openshop.openables;
 
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import by.bsu.fami.openshop.Application;
-import by.bsu.fami.openshop.caches.ProblemsCache;
 import by.bsu.fami.openshop.caches.SearchResultsCache;
+import by.bsu.fami.openshop.caches.SearchResultsNodesCache;
 import by.bsu.fami.openshop.enums.CommonOption;
 import by.bsu.fami.openshop.interfaces.Openable;
 import by.bsu.fami.openshop.resources.ResourcesProvider;
@@ -55,24 +54,28 @@ public class TasksTypesOpenable implements Openable, ItemListener {
 	private void searchProblems() {
 		String query = problemField.getText();
 		DefaultMutableTreeNode resultsNode = null;
-		if (SearchResultsCache.get().contains(query)) {
-			resultsNode = SearchResultsCache.get().getResult(query);
+		if (SearchResultsNodesCache.get().contains(query)) {
+			resultsNode = SearchResultsNodesCache.get().getResult(query);
 			Application.selectSearchResult(resultsNode, false);
 		} else {
 			resultsNode = performNewSearch(problemField.getText());
 			Application.selectSearchResult(resultsNode, true);
-			SearchResultsCache.get().putResult(query, resultsNode);
+			SearchResultsNodesCache.get().putResult(query, resultsNode);
 		}
 	}
 
 	private DefaultMutableTreeNode performNewSearch(String query) {
-		Openable[] openables = ProblemsCache.get().getResult(query);
+		Openable[] openables = SearchResultsCache.get().getResult(query);
 		DefaultMutableTreeNode resultsNode = new DefaultMutableTreeNode(query + 
 				" (" + openables.length + ")");
 		for (Openable openable : openables) {
-			resultsNode.add(new DefaultMutableTreeNode(openable));
+			resultsNode.add(createSearchResultSubnode(openable));
 		}
 		return resultsNode;
+	}
+	
+	private DefaultMutableTreeNode createSearchResultSubnode(Openable openable) {
+		return new DefaultMutableTreeNode(openable);
 	}
 	
 	private void initializeUiPanel() {
@@ -82,7 +85,7 @@ public class TasksTypesOpenable implements Openable, ItemListener {
 
 	private void initializeProblemField() {
 		problemField = new JTextField();
-		problemField.setEditable(false);
+		problemField.setEditable(true);
 	}
 
 	private void initializeTargetFunctionBox() {
@@ -215,6 +218,16 @@ public class TasksTypesOpenable implements Openable, ItemListener {
 			}
 		}
 		problemField.setText(builder.toString());
+	}
+	
+	@Override
+	public boolean hasVisualization() {
+		return false;
+	}
+	
+	@Override
+	public void showVisualization() {
+		// Do nothing.
 	}
 
 }

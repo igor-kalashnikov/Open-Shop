@@ -39,4 +39,14 @@ public abstract class HtmlOpenable implements Openable {
 	
 	private JEditorPane editorPane = null;
 	
+	@Override
+	public boolean hasVisualization() {
+		return false;
+	}
+	
+	@Override
+	public void showVisualization() {
+		// Do nothing.
+	}
+	
 }

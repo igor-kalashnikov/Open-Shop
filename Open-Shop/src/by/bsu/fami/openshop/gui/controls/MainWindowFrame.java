@@ -75,6 +75,7 @@ public class MainWindowFrame extends JFrame {
 					contentsPane = new JScrollPane(openable.getUI());
 					contentsPanel.add(contentsPane, BorderLayout.CENTER);
 					contentsPanel.updateUI();
+					visualizationAvailablePanel.setVisible(openable.hasVisualization());
 				}
 			}
 		});
@@ -114,7 +115,7 @@ public class MainWindowFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent evt) {
-				// getCurrentlySelectedOpenable().showVisualization();
+				getCurrentlySelectedOpenable().showVisualization();
 			}
 		});
         visualizationAvailablePanel.add(showVisualizationButton, BorderLayout.EAST);
@@ -195,8 +196,38 @@ public class MainWindowFrame extends JFrame {
 		logger.info("Selecting results node. Append: " + append);
 		if (append) {
 			treeModel.insertNodeInto(resultsNode, tasksTypesNode, 0);
+			for (int i = 0; i < resultsNode.getChildCount(); i++) {
+				attachAdditionalInfo((DefaultMutableTreeNode)resultsNode.getChildAt(i));
+			}
 		}
 		navigationTree.setSelectionPath(new TreePath(resultsNode.getPath()));
+	}
+	
+	public void attachAdditionalInfo(DefaultMutableTreeNode node) {
+		if (node.getUserObject() instanceof ProblemHtmlOpenable) {
+			attachAdditionalInfo((ProblemHtmlOpenable)node.getUserObject(), node);
+		}
+	}
+	
+	private void attachAdditionalInfo(Openable openable,
+			DefaultMutableTreeNode node) {
+		ProblemHtmlOpenable problemHtmlOpenable = (ProblemHtmlOpenable)openable;
+		String key = "openshop.tree.taskTypes." + problemHtmlOpenable.getAlias();
+		String additionalInfo = ResourcesProvider.get().getString(key, null);
+		if (additionalInfo != null) {
+			String[] entries = additionalInfo.split(" ");
+			for (String entry : entries) {
+				treeModel.insertNodeInto(new DefaultMutableTreeNode(
+						new ParametrizedHtmlOpenable(
+								ResourcesProvider.get().getUrl(key + "." + entry + ".url"), 
+								ResourcesProvider.get().getString(key + "." + entry))
+						),
+						node,
+						0
+				);
+				logger.info("Attached [" + entry + "]");
+			}
+		}
 	}
 	
 	private final JPanel statusBar;

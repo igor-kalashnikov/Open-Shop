@@ -62,7 +62,6 @@ public class ResourcesProvider {
 		try {
 			return stringsBundle.getString(key);
 		} catch (MissingResourceException e) {
-			logger.warning(e.toString());
 			return defaultValue;
 		}
 	}
@@ -96,6 +95,9 @@ public class ResourcesProvider {
 	 */
 	public URL getUrl(String key) {
 		String urlString = getString(key);
+		if (urlString == null) {
+			logger.warning("URL is not found for " + key + " that refers to null.");
+		}
 		URL url = ResourcesProvider.class.getResource(urlString);
 		if (url == null) {
 			logger.warning("URL is not found for " + key + " that is " + urlString);

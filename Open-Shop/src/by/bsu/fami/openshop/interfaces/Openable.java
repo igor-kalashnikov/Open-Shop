@@ -8,4 +8,8 @@ public interface Openable {
 	
 	public void initialize();
 	
+	public boolean hasVisualization();
+	
+	public void showVisualization();
+	
 }

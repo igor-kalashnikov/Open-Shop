@@ -1,33 +1,75 @@
 package by.bsu.fami.openshop.caches;
 
-import java.util.Hashtable;
+import java.util.*;
+import java.util.logging.*;
 
-import javax.swing.tree.DefaultMutableTreeNode;
+import by.bsu.fami.openshop.interfaces.Openable;
+import by.bsu.fami.openshop.openables.ProblemHtmlOpenable;
+import by.bsu.fami.openshop.resources.ResourcesProvider;
 
 public class SearchResultsCache {
 
-	private static SearchResultsCache instance = new SearchResultsCache();
+	private static final Logger logger = 
+		Logger.getLogger(SearchResultsCache.class.getName());
+	
+	private static final SearchResultsCache instance = new SearchResultsCache();
+	
+	private SearchResultsCache() {
+		cache = new Hashtable<String, Openable[]>();
+		problemsQueries = ResourcesProvider.get().getString("openshop.tree.tasksTypes.results.list").split(" ");
+	}
 	
 	public static SearchResultsCache get() {
 		return instance;
 	}
 	
-	private SearchResultsCache() {
-		cache = new Hashtable<String, DefaultMutableTreeNode>();
+	public Openable[] getResult(String query) {
+		if (cache.contains(query)) {
+			return cache.get(query);
+		} else {
+			Openable[] openable = performNewSearch(query);
+			cache.put(query, openable);
+			return openable;
+		}
 	}
 	
-	private final Hashtable<String, DefaultMutableTreeNode> cache;
-	
-	public boolean contains(String query) {
-		return cache.containsKey(query);
+	private Openable[] performNewSearch(String query) {
+		logger.info("Searching [" + query + "]");
+		String[] queryTokens = query.split("\\|");
+		ArrayList<Openable> results = new ArrayList<Openable>();
+		int index = 0;
+		for (String sample : problemsQueries) {
+			String[] sampleTokens = sample.split("\\|");
+			if (intersects(sampleTokens, queryTokens)) {
+				results.add(new ProblemHtmlOpenable(index));
+			}
+			index += 1;
+		}
+		Openable[] resultsArray = new Openable[results.size()];
+		return results.toArray(resultsArray);
 	}
 	
-	public void putResult(String query, DefaultMutableTreeNode result) {
-		cache.put(query, result);
+	private boolean intersects(String[] sampleTokens, String[] queryTokens) {
+		for (String sampleToken : sampleTokens) {
+			for (String queryToken : queryTokens) {
+				if (sampleToken.equals(queryToken)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public int length() {
+		return problemsQueries.length;
 	}
 	
-	public DefaultMutableTreeNode getResult(String query) {
-		return cache.get(query);
+	public String[] getProblemsQueries() {
+		return problemsQueries;
 	}
+	
+	private final Hashtable<String, Openable[]> cache;
+	
+	private final String[] problemsQueries;
 	
 }

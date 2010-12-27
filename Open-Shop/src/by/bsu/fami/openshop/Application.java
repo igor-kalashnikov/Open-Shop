@@ -9,15 +9,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import by.bsu.fami.openshop.caches.OpenablesCache;
 import by.bsu.fami.openshop.gui.controls.MainWindowFrame;
 import by.bsu.fami.openshop.gui.controls.SplashFrame;
-import by.bsu.fami.openshop.openables.AlgorithmicalStatusOpenable;
-import by.bsu.fami.openshop.openables.ClassificationOpenable;
-import by.bsu.fami.openshop.openables.DefinitionsOpenable;
-import by.bsu.fami.openshop.openables.IntroductionOpenable;
-import by.bsu.fami.openshop.openables.TasksTypesOpenable;
-import by.bsu.fami.openshop.openables.WithNowaitOpenable;
-import by.bsu.fami.openshop.openables.WithPreemptionOpenable;
-import by.bsu.fami.openshop.openables.WithTransportationDelaysOpenable;
-import by.bsu.fami.openshop.openables.WithoutPreemptionOpenable;
+import by.bsu.fami.openshop.openables.*;
 import by.bsu.fami.openshop.resources.ResourcesProvider;
 
 /**

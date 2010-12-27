@@ -2,8 +2,13 @@ package by.bsu.fami.openshop.openables;
 
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
 
+import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import by.bsu.fami.openshop.Application;
+import by.bsu.fami.openshop.caches.ProblemsCache;
+import by.bsu.fami.openshop.caches.SearchResultsCache;
 import by.bsu.fami.openshop.enums.CommonOption;
 import by.bsu.fami.openshop.interfaces.Openable;
 import by.bsu.fami.openshop.resources.ResourcesProvider;
@@ -26,6 +31,7 @@ public class TasksTypesOpenable implements Openable, ItemListener {
 			initializePrecedenceRelationsBox();
 			initializeTargetFunctionBox();
 			initializeProblemField();
+			initializeSearchButton();
 			/* Adding all. */
 			initializeSettingsPanel();
 			/* Target panel. */
@@ -35,6 +41,39 @@ public class TasksTypesOpenable implements Openable, ItemListener {
 		}
 	}
 
+	private void initializeSearchButton() {
+		searchButton = new JButton(ResourcesProvider.get().getString("openshop.tree.tasksTypes.searchButton"));
+		searchButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				searchProblems();
+			}
+		});
+	}
+
+	private void searchProblems() {
+		String query = problemField.getText();
+		DefaultMutableTreeNode resultsNode = null;
+		if (SearchResultsCache.get().contains(query)) {
+			resultsNode = SearchResultsCache.get().getResult(query);
+			Application.selectSearchResult(resultsNode, false);
+		} else {
+			resultsNode = performNewSearch(problemField.getText());
+			Application.selectSearchResult(resultsNode, true);
+			SearchResultsCache.get().putResult(query, resultsNode);
+		}
+	}
+
+	private DefaultMutableTreeNode performNewSearch(String query) {
+		DefaultMutableTreeNode resultsNode = new DefaultMutableTreeNode(query);
+		Openable[] openables = ProblemsCache.get().getResult(query);
+		for (Openable openable : openables) {
+			resultsNode.add(new DefaultMutableTreeNode(openable));
+		}
+		return resultsNode;
+	}
+	
 	private void initializeUiPanel() {
 		uiPanel = new JPanel(new BorderLayout());
 		uiPanel.add(settingsPanel, BorderLayout.NORTH);
@@ -80,7 +119,7 @@ public class TasksTypesOpenable implements Openable, ItemListener {
 	}
 
 	private void initializeSettingsPanel() {
-		settingsPanel = new JPanel(new GridLayout(18, 1));
+		settingsPanel = new JPanel(new GridLayout(19, 1));
 		settingsPanel.add(new JLabel(ResourcesProvider.get().getString("openshop.tree.tasksTypes.servingSystem")));
 		settingsPanel.add(machinesCountBox);
 		settingsPanel.add(new JSeparator(JSeparator.HORIZONTAL));
@@ -99,6 +138,7 @@ public class TasksTypesOpenable implements Openable, ItemListener {
 		settingsPanel.add(new JSeparator(JSeparator.HORIZONTAL));
 		settingsPanel.add(new JLabel(ResourcesProvider.get().getString("openshop.tree.tasksTypes.problem")));
 		settingsPanel.add(problemField);
+		settingsPanel.add(searchButton);
 	}
 
 	private void initializeServingTimeBox() {
@@ -150,6 +190,8 @@ public class TasksTypesOpenable implements Openable, ItemListener {
 	private JComboBox targetFunctionBox;
 	
 	private JTextField problemField;
+	
+	private JButton searchButton;
 
 	@Override
 	public void itemStateChanged(ItemEvent evt) {

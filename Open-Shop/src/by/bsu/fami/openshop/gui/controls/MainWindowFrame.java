@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.*;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 
 import by.bsu.fami.openshop.caches.OpenablesCache;
 import by.bsu.fami.openshop.interfaces.Openable;
@@ -142,7 +143,7 @@ public class MainWindowFrame extends JFrame {
 	private DefaultMutableTreeNode createNavigationNodes() {
 		logger.info("Creating nodes ...");
 		/* Creating root node. */
-		final DefaultMutableTreeNode root = new DefaultMutableTreeNode(
+		root = new DefaultMutableTreeNode(
 				ResourcesProvider.get().getString("openshop.tree.root"));
 		/* Creating child nodes. */
 		final DefaultMutableTreeNode introductionNode = 
@@ -153,7 +154,7 @@ public class MainWindowFrame extends JFrame {
 			new DefaultMutableTreeNode(OpenablesCache.get().getOpenable(AlgorithmicalStatusOpenable.class));
 		final DefaultMutableTreeNode classificationNode =
 			new DefaultMutableTreeNode(OpenablesCache.get().getOpenable(ClassificationOpenable.class));
-		final DefaultMutableTreeNode tasksTypesNode =
+		tasksTypesNode =
 			new DefaultMutableTreeNode(OpenablesCache.get().getOpenable(TasksTypesOpenable.class));
 		final DefaultMutableTreeNode task1Node =
 			new DefaultMutableTreeNode(OpenablesCache.get().getOpenable(WithoutPreemptionOpenable.class));
@@ -188,6 +189,13 @@ public class MainWindowFrame extends JFrame {
 		}
 	}
 	
+	public void addSearchResult(DefaultMutableTreeNode resultsNode, boolean append) {
+		if (append) {
+			tasksTypesNode.add(resultsNode);
+		}
+		navigationTree.setSelectionPath(new TreePath(resultsNode.getPath()));
+	}
+	
 	private final JPanel statusBar;
 	private final JLabel developersLabel;
 	private final JPanel contentsPanel;
@@ -200,5 +208,7 @@ public class MainWindowFrame extends JFrame {
 	private final JButton showVisualizationButton;
 	private final JTree navigationTree;
 	private JScrollPane contentsPane;
+	private DefaultMutableTreeNode root;
+	private DefaultMutableTreeNode tasksTypesNode;
 	
 }

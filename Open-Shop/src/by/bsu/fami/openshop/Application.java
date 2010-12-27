@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import javax.swing.UIManager;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import by.bsu.fami.openshop.caches.OpenablesCache;
 import by.bsu.fami.openshop.gui.controls.MainWindowFrame;
@@ -79,6 +80,10 @@ public class Application {
 		openablesClassesList.add(WithTransportationDelaysOpenable.class);
 		openablesClassesList.add(TasksTypesOpenable.class);
 		return openablesClassesList;
+	}
+	
+	public static void selectSearchResult(DefaultMutableTreeNode resultsNode, boolean append) {
+		mainWindow.addSearchResult(resultsNode, append);
 	}
 
 }

@@ -34,13 +34,14 @@ public class SearchResultsCache {
 	}
 	
 	private Openable[] performNewSearch(String query) {
+		query = query.trim();
 		logger.info("Searching [" + query + "]");
-		String[] queryTokens = query.split("\\|");
 		ArrayList<Openable> results = new ArrayList<Openable>();
+		String[] queryTokens = query.split("\\|");
 		int index = 0;
 		for (String sample : problemsQueries) {
 			String[] sampleTokens = sample.split("\\|");
-			if (intersects(sampleTokens, queryTokens)) {
+			if (query.length() == 0 || intersects(sampleTokens, queryTokens)) {
 				results.add(new ProblemHtmlOpenable(index));
 			}
 			index += 1;
